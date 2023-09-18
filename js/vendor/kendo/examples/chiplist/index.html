@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="demo-section auto">
+        <script src="../content/shared/js/sushi-menu.js"></script>
+        <div class="food-filters">
+            <div>
+                <label class="k-label" for="categories">Category: </label>
+                <div id="categories"></div>
+            </div>
+            <div>
+                <label class="k-label" for="food-type">Food type: </label>
+                <div id="food-type"></div>
+            </div>
+        </div>
+        <div id="listView"></div>
+        <script>
+            $(function() {
+                var categories = [... new Set(sushiMenu.map(x => x.category))];
+                var preSelectedValues = ["Cold starters", "Hot Dishes"];
+                var sushiDataSource = new kendo.data.DataSource({
+                    data: sushiMenu,
+                    schema: {
+                        model: {
+                            fields: {
+                                name: { type: "string" },
+                                price: { type: "number" },
+                                tags: { type: "array" },
+                                image: { type: "string" },
+                                category: { type: "string" },
+                                description: { type: "string" },
+                                featured: { type: "boolean" }
+                            }
+                        }
+                    },
+                    filter: {
+                        logic: "and",
+                        filters: [
+                            {
+                                field: "category",
+                                logic: "or",
+                                filters: [
+                                    { field: "category", value: "Hot Dishes", operator: "eq" },
+                                    { field: "category", value: "Cold starters", operator: "eq" }
+                                ]
+                            },
+                            { field: "tags", value: "Meat", operator: containsTagOperatorFunc }
+                        ]
+                    }
+                });
+
+                function containsTagOperatorFunc(itemValue, filterValue) {
+                    return itemValue.map((x) => x.toLowerCase()).indexOf(filterValue.toLowerCase()) > -1;
+                }
+
+                $("#categories").kendoChipList({
+                    selectable: "multiple",
+                    items: categories.map((x) => { return { icon: "check", label: x, selected: preSelectedValues.indexOf(x) > -1 } }),
+                    select: function(ev) {
+                        var filterOptions = sushiDataSource.filter();
+                        var categoryFilter = filterOptions.filters.find(x => x.field == "category");
+                        var label = ev.item.options.label;
+
+                        if (ev.item.select()) {
+                            categoryFilter.filters = categoryFilter.filters.filter(x => x.value.toLowerCase() != label.toLowerCase())
+                        } else {
+                            categoryFilter.filters.push({ field: "category", value: label, operator: "eq" })
+                        }
+
+                        sushiDataSource.filter(filterOptions);
+                    }
+                });
+
+                $("#food-type").kendoChipList({
+                    selectable: "single",
+                    fillMode: "outline",
+                    items: [{ icon: "check", label: "Fish" }, { icon: "check", label: "Meat", selected: true }, { icon: "check", label: "Vegetarian" }],
+                    select: function(ev) {
+                        var filterOptions = sushiDataSource.filter();
+                        var foodTypeFilter = filterOptions.filters.find(x => x.field == "tags");
+                        var label = ev.item.options.label;
+                        foodTypeFilter.value = label;
+                        sushiDataSource.filter(filterOptions);
+                    }
+                });
+
+                $("#listView").kendoListView({
+                    dataSource: sushiDataSource,
+                    height: 550,
+                    template: ({ image, name, description, price, tags }) =>
+                        '<div class="k-card k-card-vertical">' +
+                            `<img class="k-card-image main-image" src='../content/integration/sushi/images/200/${image}' alt="${kendo.htmlEncode(name)}" title="${kendo.htmlEncode(name)}" />` +
+                            '<div class="k-card-header">' +
+                                `<h3 class="k-card-title"><span>${name}</span> <span class="price"><span>$</span><span>${kendo.toString(price, "n")}</span></span></h3>` +
+                                '<div class="k-card-subtitle k-no-click tags-container"></div>' +
+                            '</div>' +
+                            '<div class="k-card-body">' +
+                                `<p class="description">${description}</p>` +
+                            '</div>' +
+                            '<div class="k-card-footer">' +
+                                '<div class="k-card-actions k-card-actions-stretched">' +
+                                    '<span class="k-card-action k-button k-button-solid-primary k-button-solid k-button-lg"><span class="k-button-icon k-icon k-i-cart"></span>Buy</span>' +
+                                    '<span class="k-card-action k-button k-button-flat-primary k-button-lg"><span class="k-button-icon k-icon k-i-heart-outline"></span>Favorite</span>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>',
+                    pageSize: 6,
+                    dataBound: function onDataBound(e) {
+                        var grid = this;
+
+                        this.element.find(".k-listview-item").each(function() {
+                            var dataItem = grid.dataItem(this);
+                            var tagsContainer = $(this).find(".tags-container");
+
+                            if (dataItem.tags) {
+                                dataItem.tags.forEach((item) =>
+                                    $("<span></span>")
+                                        .appendTo(tagsContainer)
+                                        .kendoChip({ label: item })
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    </div>
+</div>
+<style>
+    .demo-section {
+        width: 900px;
+        max-width: 900px;
+    }
+
+    .food-filters {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 9px;
+        gap: 8px;
+        border-width: 1px 1px 0px 1px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .food-filters .k-chip-content{
+        margin-inline-start: 4px;
+    }
+
+    .food-filters .k-chip:not(.k-selected) .k-chip-icon {
+        display: none;
+    }
+
+    .k-listview {
+        overflow: auto;
+        padding: 31px 23px 31px 23px;
+    }
+
+    .k-listview-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        gap: 20px;
+    }
+
+    .k-listview-item.k-card {
+        border-width: 1px;
+        width: 230px;
+        box-sizing: border-box;
+    }
+
+    .tags-container {
+        display: flex;
+        gap: 8px;
+    }
+
+    .k-card-title {
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .k-card-footer {
+        padding: 0;
+        text-align: center;
+    }
+
+    .k-card-actions {
+        gap: 0;
+        padding: 0;
+    }
+
+    .k-card-actions .k-chip {
+        font-size: 16px;
+        padding: 9px 5px;
+    }
+
+    .k-card-action > .k-button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .k-card-actions .k-card-action {
+        width: 50%;
+    }
+
+    .price {
+        font-size: 17px;
+        font-weight: bold;
+        position: relative;
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+</body>
+</html>

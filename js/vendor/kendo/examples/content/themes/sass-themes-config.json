@@ -1,0 +1,73 @@
+[
+  {
+    "name": "default",
+    "title": "Default",
+    "primary": "#ff6358",
+    "swatches": [
+      { "name": "default-ocean-blue" },
+      { "name": "default-ocean-blue-a11y", "icon": "a11y" },
+      { "name": "default-main" },
+      { "name": "default-main-dark", "icon": "moon" },
+      { "name": "default-purple" },
+      { "name": "default-turquoise" },
+      { "name": "default-nordic" }
+    ]
+  },
+  {
+    "name": "bootstrap",
+    "title": "Bootstrap",
+    "primary": "#0d6efd",
+    "swatches": [
+      { "name": "bootstrap-main" },
+      { "name": "bootstrap-main-dark", "icon": "moon" },
+      { "name": "bootstrap-urban" },
+      { "name": "bootstrap-nordic" },
+      { "name": "bootstrap-turquoise" },
+      { "name": "bootstrap-turquoise-dark", "icon": "moon" },
+      { "name": "bootstrap-vintage" },
+      { "name": "bootstrap-3", "title": "Bootstrap 3" },
+      { "name": "bootstrap-3-dark", "title": "Bootstrap 3 Dark", "icon": "moon" }
+    ]
+  },
+  {
+    "name": "material",
+    "title": "Material",
+    "primary": "#3f51b5",
+    "swatches": [
+      { "name": "material-main" },
+      { "name": "material-main-dark", "icon": "moon" },
+      { "name": "material-lime-dark" },
+      { "name": "material-nova" },
+      { "name": "material-arctic" }
+    ]
+  },
+  {
+    "name": "classic",
+    "title": "Classic",
+    "primary": "#f35800",
+    "swatches": [
+      { "name": "classic-main" },
+      { "name": "classic-main-dark", "icon": "moon" },
+      { "name": "classic-silver" },
+      { "name": "classic-silver-dark", "icon": "moon" },
+      { "name": "classic-opal" },
+      { "name": "classic-opal-dark", "icon": "moon" },
+      { "name": "classic-moonlight" },
+      { "name": "classic-uniform" },
+      { "name": "classic-lavender" },
+      { "name": "classic-lavender-dark", "icon": "moon" },
+      { "name": "classic-metro" },
+      { "name": "classic-metro-dark", "icon": "moon" },
+      { "name": "classic-green" },
+      { "name": "classic-green-dark", "icon": "moon" }
+    ]
+  },
+  {
+    "name": "fluent",
+    "title": "Fluent",
+    "primary": "#0078d4",
+    "swatches": [
+      { "name": "fluent-main" }
+    ]
+  }
+]

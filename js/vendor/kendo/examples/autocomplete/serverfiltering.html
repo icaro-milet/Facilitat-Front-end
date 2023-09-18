@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Server Filtering</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+			<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+				<div class="k-w-300">       
+					<label for="products">Find a product</label>
+					<input id="products" style="width: 100%;" />
+                <div class="demo-hint">Hint: type "che"</div>
+				</div>
+			</div>
+            <script>
+                $(document).ready(function() {
+                    $("#products").kendoAutoComplete({
+                        dataTextField: "ProductName",
+                        filter: "contains",
+                        minLength: 3,
+                        dataSource: {
+                            type: "odata",
+                            serverFiltering: true,
+                            transport: {
+                                read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"
+                            }
+                        }
+                    });
+                });
+            </script>
+
+</body>
+</html>

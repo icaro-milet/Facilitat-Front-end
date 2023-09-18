@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>API</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+            <div class="configurator">
+                <div class="header">Configurator</div>
+                <div class="box-col">
+                    <h4>SELECT / FOCUS</h4>
+                    <ul class="options">
+                        <li>
+                            <button id="selectChip" type="button">Select</button>
+                            <button id="focusChip" type="button">Focus</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="box-col">
+                    <h4>ENABLE / DISABLE</h4>
+                    <ul class="options">
+                        <li>
+                            <button id="enableChip" type="button">Enable</button>
+                            <button id="disableChip" type="button">Disable</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+                <span id="chip"></span>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+                    var chip = $("#chip").kendoChip({
+                        themeColor: "base",
+                        size: "large",
+                        label: "Chip Label",
+                        icon: "save",
+                        removable: true,
+                        selectable: true,
+                    }).data("kendoChip");
+
+                    $("#selectChip").click(function(){
+                        chip.select(true);
+                    });
+
+                    $("#focusChip").click(function(){
+                        chip.focus(true);
+                    });
+
+                    $("#enableChip").click(function(){
+                        chip.enable(true);
+                    });
+
+                    $("#disableChip").click(function(){
+                        chip.enable(false);
+                    });
+                });
+            </script>
+
+</body>
+</html>

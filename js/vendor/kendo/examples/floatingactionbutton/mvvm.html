@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MVVM</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="demo">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Configuration</h4>
+            <ul>
+                <li><label><input type="checkbox" data-bind="checked: isEnabled"> Enable</label></li>
+                <li><label><input type="checkbox" data-bind="checked: isVisible"> Visible</label></li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>Information</h4>
+            Kendo UI DropDownTree supports the
+            <a href="https://docs.telerik.com/kendo-ui/getting-started/framework/mvvm/bindings/enabled">enabled</a>,
+            <a href="https://docs.telerik.com/kendo-ui/getting-started/framework/mvvm/bindings/events">events</a> and
+            <a href="https://docs.telerik.com/kendo-ui/getting-started/framework/mvvm/bindings/visible">visible</a> bindings.
+        </div>
+    </div>
+
+	<div class="demo-section k-content wide">
+				
+            <button id="fab-speed-dial"  data-role="floatingactionbutton" 				
+				data-position-mode="absolute"
+				data-align="bottom center"
+				data-bind="visible: isVisible,
+				           enabled: isEnabled,
+				           events: {
+				           click: onClick,
+				           collapse: onCollapse,
+				           expand: onExpand
+				           }"                    
+				data-theme-color= 'warning'    
+				data-items="[                    
+				            { label: 'Save', icon: 'save' },
+				            { label: 'Print', icon: 'print' }]"
+				data-icon="share"></button>				
+	</div>
+
+    <script>
+       var viewModel = kendo.observable({              
+          isVisible: true,
+          isEnabled: true,
+		  alignment: "top center",
+          onClick: function () {
+            kendoConsole.log("event :: click");
+          },
+          onCollapse: function () {
+            kendoConsole.log("event :: collapse");
+          },
+          onExpand: function () {
+            kendoConsole.log("event :: expand");
+          },
+        });
+        kendo.bind($("#demo"), viewModel);
+    </script>
+</div>
+
+</body>
+</html>

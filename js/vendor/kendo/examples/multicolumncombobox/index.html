@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="demo-wrapper k-d-flex k-flex-1">
+    <div class="header !k-d-flex k-flex-col k-skeleton k-opacity-50 k-px-3.5 k-py-4 k-gap-2.5">
+        <span class="k-skeleton k-opacity-70 k-skeleton-circle k-w-5 k-h-5"></span>
+        <span class="k-skeleton k-opacity-40 k-skeleton-circle k-w-5 k-h-5"></span>
+    </div>
+
+    <div class="main-container k-d-flex k-flex-col k-w-full k-p-8">
+        <h4 class="k-h4 k-w-full k-opacity-20 k-font-bold !k-mb-1.5">Order History</h4>
+		<div class="k-d-flex k-w-full k-d-inline-block">Employee</div>
+        <div class="k-d-flex k-flex-1 k-gap-x-8">
+        <div class="k-d-flex k-flex-col k-flex-1">
+            <select id="multicolumncombobox" ></select>
+
+            <div class="k-d-flex k-flex-col k-gap-1 k-mt-5">
+            <span class="k-skeleton k-opacity-40 k-rounded-md k-w-24 k-px-3 k-h-4"></span>
+            <span class="k-skeleton k-opacity-30 k-rounded-md k-h-8"></span>
+            </div>
+
+            <div class="k-d-flex k-flex-col k-grow k-gap-1 k-mt-5">
+            <span class="k-skeleton k-opacity-40 k-rounded-md k-w-24 k-px-3 k-h-4"></span>
+            <span class="content-expanded k-grow k-skeleton k-opacity-30 k-rounded-md k-h-14"></span>
+            </div>
+        </div>
+        <div class="kd-image-wrapper !k-d-flex k-flex-1 k-justify-content-center k-align-items-center k-skeleton k-opacity-10 k-border k-border-secondary k-border-solid k-rounded-md">
+            <span class="k-icon k-i-chart-pie k-opacity-70"></span>
+        </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .demo-wrapper {
+        grid-template-columns: 48px 1fr;
+    }
+
+    .kd-image-wrapper > .k-icon {
+        font-size: 72px;
+    }
+
+	.customer-photo {
+            display: inline-block;
+            box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+            margin: 0 10px 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            vertical-align: middle;
+    }
+
+
+
+    /* Breakpoints for full screen demo: max:599px, min:759px and max: 959 */
+    @media (max-width: 678px), (min-width: 821px) and (max-width: 1038px), (min-width: 1241px) and (max-width: 1328px) {
+        .kd-image-wrapper {
+            display: none !important;
+        }
+    }
+
+    /* Breakpoint for full screen demo: max:399px */
+    @media (max-width: 478px) {
+        .demo-wrapper {
+            flex-direction: column;
+        }
+        .header {
+            flex-direction: row;
+            padding: 10px 16px;
+        }
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        var multiComboBox = $("#multicolumncombobox").kendoMultiColumnComboBox({
+            dataTextField: "ContactName",
+            dataValueField: "CustomerID",
+            height: 400,
+            columns: [
+                {
+                    field: "ContactName", title: "Contact Name", template: "<span class='customer-photo'" +
+                        "style='background-image: url(../content/web/Customers/#:data.CustomerID#.jpg);'></span>" +
+                        "<span class='customer-name'>#: ContactName #</span>", width: 200
+                },
+                { field: "ContactTitle", title: "Contact Title", width: 200 },
+                { field: "CompanyName", title: "Company Name", width: 200 }
+            ],
+            footerTemplate: 'Total #: instance.dataSource.total() # items found',
+            filter: "contains",
+            filterFields: ["ContactName", "ContactTitle", "CompanyName"],
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Customers"
+                }
+            }
+        }).data("kendoMultiColumnComboBox");
+    });
+</script>
+</body>
+</html>

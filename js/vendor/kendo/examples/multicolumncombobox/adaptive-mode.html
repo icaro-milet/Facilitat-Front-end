@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Adaptive Mode</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class='note' style="text-align: center;">
+    <p>
+        Resize the browser to see how the MultiColumnComboBox popup adapts to different resolutions.
+    </p>       
+</div>
+
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+	<div class="k-w-300">
+		<label for="products">Type a product name</label>
+		<input id="products" />
+		<div class="demo-hint">e.g. 'Chai'</div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var crudServiceBaseUrl = "https://demos.telerik.com/kendo-ui/service";
+        var dataSource = new kendo.data.DataSource({
+            batch: true,
+            transport: {
+                read:  {
+                    url: crudServiceBaseUrl + "/Products",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: crudServiceBaseUrl + "/Products/Create",
+                    dataType: "jsonp"
+                },
+                parameterMap: function(options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return {models: kendo.stringify(options.models)};
+                    }
+                }
+            },
+            schema: {
+                model: {
+                    id: "ProductID",
+                    fields: {
+                        ProductID: { type: "number" },
+                        ProductName: { type: "string" }
+                    }
+                }
+            }
+        });
+
+        $("#products").kendoMultiColumnComboBox({
+            adaptiveMode:"auto",
+            size: "large",
+            dataTextField: "ProductName",
+            dataValueField: "ProductID",
+            columns: [
+                { field: "ProductName", title: "Name" },
+                { field: "ProductID", title: "ID" }
+            ],
+            dataSource: dataSource,
+        });
+    });
+</script>
+
+<style>
+    .note {
+        font: normal 18px "Metric";
+        border-radius: 2px;
+        margin: 20px auto 40px auto;
+        padding: 20px;
+        border-left: 4px solid;
+        border-left-color: #5392e4;
+        background: rgba(83,146,228,0.1);
+        text-align: center;
+    }
+</style>
+</body>
+</html>

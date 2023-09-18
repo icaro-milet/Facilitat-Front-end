@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Page - My Kendo UI Application</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/6.6.0/default/default-main.css">
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://kendo.cdn.telerik.com/2023.2.718/js/jszip.min.js"></script>
+        <script src="https://kendo.cdn.telerik.com/2023.2.718/js/kendo.all.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row k-header">
+                <h1>Project Title</h1>
+                <div id="responsive-panel">
+                    <ul id="menu">
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                        <li>Item 4</li>
+                        <li>Item 5</li>
+                        <li class="k-disabled">Disabled item</li>
+                    </ul>
+                </div>
+                <button id="configure" class="k-rpanel-toggle k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary btn-toggle">
+                    <span class="k-icon k-i-hbars"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="container-fluid placeholders">
+            <div class="row">
+                <div class="col-xs-4 col-lg-2 placeholder">
+                    <img class="img-responsive " alt="200x200" src="images/200.png">
+                </div>
+                <div class="col-xs-10 col-lg-3">
+                    <h2>Lorem ipsum dolor sit amet...</h2>
+                    <p>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                    galley of type and scrambled it to make a type specimen book.
+                    </p>
+
+                    <p>
+                    <button id="PrimaryButton">Primary Button</button>
+                    </p>
+                </div>
+
+                <div class="col-xs-10 col-lg-3">
+                    <h2>&nbsp;</h2>
+                    <p>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                    galley of type and scrambled it to make a type specimen book.
+                    </p>
+                    <p>
+                    <button class="textButton" id="TextButton">Button</button>
+                    </p>
+
+                </div>
+                <div class="col-xs-10 col-lg-3">
+                    <h2>&nbsp;</h2>
+                    <p>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                    galley of type and scrambled it to make a type specimen book.
+                    </p>
+
+                    <p>
+                    <button class="textButton" id="Button">Button</button>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-18 col-md-12">
+                    <div id="grid" style="height:550px;"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-18 col-md-12">
+                    <div id="grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+        <div class="container-fluid">
+            <p class="text-muted">Copyright © 2023 Telerik. All rights reserved.</p>
+        </div>
+        </footer>
+
+        <script>
+            function sampleData() {
+                var data = [];
+
+                for (var i = 0; i < 50; i++) {
+                    var today = new Date();
+                    today.setDate(today.getDate() + i);
+
+                    data.push({
+                        OrderID: i,
+                        Freight: i * 10,
+                        OrderDate: today,
+                        ShipName: "ShipName " + i,
+                        ShipCity: "ShipCity " + i
+                    });
+                }
+
+                return data;
+            }
+
+            $(function(){
+                $("#responsive-panel").kendoResponsivePanel({
+                    breakpoint: 768,
+                    autoClose: false,
+                    orientation: "top"
+                });
+
+                $("#menu").kendoMenu();
+                $(".textButton").kendoButton();
+                $('#PrimaryButton').kendoButton({
+                    themeColor: "primary"
+                })
+
+                $("#grid").kendoGrid({
+                    columns: [{
+                        title: "Order ID",
+                        field: "OrderID",
+                        filterable: false,
+                        encoded:true
+                    }, {
+                        title: "Freight",
+                        field: "Freight",
+                        encoded:true
+                    }, {
+                        title: "Order Date",
+                        field: "OrderDate",
+                        format: "{0:MM/dd/yyyy}",
+                        encoded:true
+                    }, {
+                        title: "Ship Name",
+                        field: "ShipName",
+                        encoded:true
+                    }, {
+                        title: "Ship City",
+                        field: "ShipCity",
+                        encoded:true
+                    }],
+                    pageable: {
+                        buttonCount: 10
+                    },
+                    sortable: true,
+                    filterable:true,
+                    messages: {
+                        noRecords: "No records available."
+                    },
+                    dataSource:{
+                        data: sampleData(),
+                        pageSize: 20,
+                        schema: {
+                            model: {
+                                fields: {
+                                    OrderID: {
+                                        type: "number"
+                                    },
+                                    CustomerID: {
+                                        type: "string"
+                                    },
+                                    ContactName: {
+                                        type: "string"
+                                    },
+                                    Freight: {
+                                        type: "number",
+                                        defaultValue: null
+                                    },
+                                    ShipAddress: {
+                                        type: "string"
+                                    },
+                                    OrderDate: {
+                                        type: "date",
+                                        defaultValue: null
+                                    },
+                                    ShippedDate: {
+                                        type: "date",
+                                        defaultValue: null
+                                    },
+                                    ShipCountry: {
+                                        type: "string"
+                                    },
+                                    ShipCity: {
+                                        type: "string"
+                                    },
+                                    ShipName: {
+                                        type: "string"
+                                    },
+                                    EmployeeID: {
+                                        type: "number",
+                                        defaultValue: null
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

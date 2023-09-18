@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example">
+    <div class="demo-section wide">
+        <nav id="breadcrumb"></nav>
+        <div id="chart"></div>
+    </div>
+    <script>
+        function createChart() {
+            $("#chart").kendoChart({
+                series: [{
+                    type: 'column',
+                    name: 'Total Sales By Company',
+                    field: 'sales',
+                    categoryField: 'company',
+                    drilldownField: 'details',
+                    data: [{
+                        company: 'Company A',
+                        sales: 100,
+                        details: {
+                            name: 'Company A Sales By Product',
+                            type: 'column',
+                            field: 'sales',
+                            categoryField: 'product',
+                            data: [{
+                                product: 'Product 1',
+                                sales: 80
+                            }, {
+                                product: 'Product 2',
+                                sales: 20
+                            }]
+                        }
+                    }, {
+                        company: 'Company B',
+                        sales: 200,
+                        details: {
+                            name: 'Company A Sales By Product',
+                            type: 'column',
+                            field: 'sales',
+                            categoryField: 'product',
+                            data: [{
+                                product: 'Product 1',
+                                sales: 40
+                            }, {
+                                product: 'Product 2',
+                                sales: 160
+                            }]
+                        }
+                    }]
+                }],
+                legend: {
+                    position: 'bottom'
+                }
+            });
+
+            $('#breadcrumb').kendoChartBreadcrumb({
+                chart: "#chart"
+            });
+        }
+
+        $(document).ready(function () {
+            createChart();
+            $(document).bind("kendo:skinChange", createChart);
+        });
+    </script>
+</div>
+
+</body>
+</html>

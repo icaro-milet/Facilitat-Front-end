@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Keyboard Navigation</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example">
+<script src="../content/shared/js/countries-revenue.js"></script>
+
+    <div id="container">
+        <div id="pivotgrid"></div>
+        <div id="configurator"></div>
+        <div id="pivotbutton"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+        var pivotgrid = $("#pivotgrid").kendoPivotGridV2({
+                height: 570,
+                navigatable: true,
+                dataSource: {
+                    data: revenue.filter(x => ["United States", 'Poland', 'Greece', 'Peru'].includes(x.Country) && x.Year >= 2020),
+                    sort: { field: "Year", dir: "asc" },
+                    schema: {
+                        model: {
+                            fields: {
+                                Country: { type: "string" },
+                                Revenue: { type: "number" },
+                                Year: { type: "number" },
+                                Sector: { type: "string" }
+                            }
+                        },
+                        cube: {
+                            dimensions: {
+                                Country: { caption: "All Countries" },
+                                Sector: { caption: "All Sectors" },
+                                Year: { caption: "All Years" }
+                            },
+                            measures: {
+                                "Sum": { field: "Revenue", format: "{0:c}", aggregate: "sum" },
+                                "Average": { field: "Revenue", format: "{0:c}", aggregate: "average" }
+                            }
+                        }
+                    },
+                    columns: [{ name: "Year", expand: true }, { name: "Sector" }],
+                    rows: [{ name: "Country", expand: true }],
+                    measures: ["Sum", "Average"]
+                }
+            }).data("kendoPivotGridV2");
+
+
+            $("#configurator").kendoPivotConfiguratorV2({
+                dataSource: pivotgrid.dataSource,
+                navigatable: true,
+                filterable: true,
+                sortable: true
+            });
+
+            $("#pivotbutton").kendoPivotConfiguratorButton({
+                configurator: "configurator"
+            });
+
+            $("#container").kendoPivotContainer({
+                configuratorPosition: "right"
+            });
+
+            $(document.body).keydown(function(e) {
+                if (e.altKey && e.keyCode == 87) {
+                    pivotgrid.navigation.focusElement(pivotgrid.element.find("[tabindex=0]")[0]);
+                }
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>

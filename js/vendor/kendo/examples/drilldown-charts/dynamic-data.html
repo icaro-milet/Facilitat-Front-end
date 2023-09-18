@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dynamic Data</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example">
+    <div class="demo-section wide">
+        <nav id="breadcrumb"></nav>
+        <div id="chart"></div>
+    </div>
+    <script>
+        function createChart() {
+            var vehiclesByQuarter = {
+                'Model 3': [{
+                    period: '2022 Q1',
+                    count: 97436
+                }, {
+                    period: '2022 Q2',
+                    count: 103436
+                }, {
+                    period: '2022 Q3',
+                    count: 113461
+                }],
+                'Model Y': [{
+                    period: '2022 Q1',
+                    count: 7738
+                }, {
+                    period: '2022 Q2',
+                    count: 11932
+                }, {
+                    period: '2022 Q3',
+                    count: 20489
+                }],
+                'ID.3': [{
+                    period: '2022 Q1',
+                    count: 18164
+                }, {
+                    period: '2022 Q2',
+                    count: 20087
+                }, {
+                    period: '2022 Q3',
+                    count: 22023
+                }],
+                'ID.4': [{
+                    period: '2022 Q1',
+                    count: 5841
+                }, {
+                    period: '2022 Q2',
+                    count: 6715
+                }, {
+                    period: '2022 Q3',
+                    count: 7746
+                }]
+            };
+
+            var vehiclesByModel = {
+                'Tesla': [{
+                    model: 'Model 3',
+                    count: 225350
+                }, {
+                    model: 'Model Y',
+                    count: 40159
+                }],
+                'VW': [{
+                    model: 'ID.3',
+                    count: 60274
+                }, {
+                    model: 'ID.4',
+                    count: 20302
+                }]
+            };
+
+            var vehiclesByMake = [{
+                company: 'Tesla',
+                count: 314159
+            }, {
+                company: 'VW',
+                count: 112645
+            }];
+
+            function drilldownByQuarter(model) {
+                const data = vehiclesByQuarter[model];
+                if (data) {
+                    return {
+                        type: 'column',
+                        name: model + ' Sales by Quarter',
+                        data,
+                        field: 'count',
+                        categoryField: 'period'
+                    };
+                }
+            }
+
+            function drilldownByModel(make) {
+                const data = vehiclesByModel[make];
+                if (data) {
+                    return {
+                        type: 'column',
+                        name: make + ' Sales by Model',
+                        data,
+                        field: 'count',
+                        categoryField: 'model',
+                        drilldownField: 'model',
+                        drilldownSeriesFactory: drilldownByQuarter
+                    };
+                }
+            }
+
+            $("#chart").kendoChart({
+                series: [{
+                    type: 'column',
+                    name: 'Battery EVs registered in 2022',
+                    data: vehiclesByMake,
+                    field: 'count',
+                    categoryField: 'company',
+                    drilldownField: 'company',
+                    drilldownSeriesFactory: drilldownByModel
+                }],
+                legend: {
+                    position: 'bottom'
+                }
+            });
+
+            $('#breadcrumb').kendoChartBreadcrumb({
+                chart: "#chart"
+            });
+        }
+
+        $(document).ready(function () {
+            createChart();
+            $(document).bind("kendo:skinChange", createChart);
+        });
+    </script>
+</div>
+
+</body>
+</html>

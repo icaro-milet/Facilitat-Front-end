@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>API</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Toggle Readonly</h4>
+        <ul class="options">
+            <li>
+                <input id="readonly" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Toggle Enabled</h4>
+        <ul class="options">
+            <li>
+                <input id="enable" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Value</h4>
+        <ul class="options">
+            <li>
+                <button id="get-value">Get Value</button>
+                <button id="set-value">Set Value</button>
+                <input id="value-input" value="5400000" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+    <div class="k-w-300">
+        <input id="timedurationpicker" title="timedurationpicker" />
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        let timedurationpicker = $("#timedurationpicker").kendoTimeDurationPicker({
+            value: 9000000,
+            columns: [{ name: "hours", format: "## hours "}, { name: "minutes", format: " ## minutes"}]
+        }).data("kendoTimeDurationPicker");
+
+        $("#enable").kendoSwitch({
+            checked: true,
+            change: function() {
+                let value = this.value();
+                timedurationpicker.enable(value);
+            }
+        });
+
+        $("#readonly").kendoSwitch({
+            checked: false,
+            change: function() {
+                let value = this.value();
+                timedurationpicker.readonly(value);
+            }
+        });
+
+        $("#get-value").kendoButton({
+            click: function() {
+                kendo.alert(timedurationpicker.value());
+            }
+        });
+
+        $("#set-value").kendoButton({
+            click: function() {
+                let value = $("#value-input").val();
+                timedurationpicker.value(parseInt(value));
+            }
+        });
+    });
+</script>
+</body>
+</html>

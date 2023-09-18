@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AngularJS</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/angular.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example" ng-app="KendoDemos">
+    <div class="demo-section" ng-controller="MyCtrl">
+    <div class="box">
+            <div class="box-col">
+                <ul>
+                    <li>
+                        <span class="button-descr">start date: </span>
+                    </li>
+                    <li>
+                        <span class="button-descr">end date: </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="box-col">
+                <ul>
+                    <li>
+                        <span class="button-descr">
+                            {{ startDate | date:"EEEE, MMMM d, yyyy"}}
+                        </span>
+                    </li>
+                    <li>
+                        <span class="button-descr">
+                            {{ endDate | date:"EEEE, MMMM d, yyyy" }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <h4>Select date:</h4>
+            <div kendo-date-range-picker  k-ng-model="startDate, endDate"
+                   style="width: 100%;" />
+        </div>
+    </div>
+</div>
+<script>
+    angular.module("KendoDemos", ["kendo.directives"])
+        .controller("MyCtrl", function ($scope) {
+            $scope.startDate = new Date();
+            $scope.endDate = new Date();
+        })
+</script>
+    <style>
+    .box {
+        padding: 1rem;
+    }
+
+    .box-col {
+        padding: 0;
+        float: left;
+    }
+
+        .box-col ul {
+            list-style-type: none;
+        }
+
+        .box-col + .box-col {
+            padding: 0;
+        }
+</style>
+
+</body>
+</html>

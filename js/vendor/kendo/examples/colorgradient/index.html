@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="demo-wrapper k-d-grid k-gap-8 k-flex-1 k-px-8 k-pt-8 k-pb-8">
+    <div data-role="kendokacontainer" class="kendoka-container !k-d-flex k-flex-col k-align-items-center k-bg-light k-rounded-md" aria-live="polite" aria-label="Loading...">
+        <object class="kendoka k-d-block" type="image/svg+xml" data="../content/web/kendoka/kendoka.svg"></object>
+    </div>
+
+    <div class="main-container k-d-flex k-flex-col">
+        <div class="k-d-flex k-gap-3 k-align-items-center k-mb-5">
+			<h4 class="k-h4 k-opacity-20 k-font-bold">T-shirt Design</h4>
+        </div>
+        <div class="k-d-flex k-flex-col k-gap-1">
+            <label for="colorGradient">Choose color</label>
+            <div id="colorGradient"></div>
+        </div>        
+
+    </div>
+</div>
+
+<style>
+    .demo-wrapper {
+        grid-template-columns: 1fr 272px;
+    }
+
+	.kendoka-container {
+		padding-top: 100px;
+		padding-bottom: 100px;
+	}
+
+	.kendoka {
+		width: 205px;
+		height: 235px;
+	}
+
+	.k-h4 {
+		line-height: 32px;
+		margin-bottom: 0;
+		font-weight: 700;
+	}
+
+    #colorGradient {
+        width: 280px;
+    }
+
+    .k-colorgradient-inputs .k-numerictextbox {
+        width: 45px;
+    }
+
+    @media (max-width: 730px), (min-width: 821px) and (max-width: 1090px), (min-width: 1241px) and (max-width: 1380px) {
+      .demo-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+	  	.kendoka {
+			width: 155px;
+			height: 180px;
+		}
+
+      .kendoka-container {
+        padding-top: 40px;
+        padding-bottom: 40px;
+      }
+    }
+</style>
+
+<script>
+    var kendokaSvg;
+    window.onload = function() {
+        // Get the kendoka object by ID
+        var kednokaObj = document.getElementsByClassName("kendoka");
+        // Get the SVG document inside the Object tag
+        var svgDoc = kednokaObj[0].contentDocument;
+        // Get the kendoka SVG by ID
+        kendokaSvg = svgDoc.getElementById("kendoka-svg");
+    };
+
+    function select(e) {
+        var selectedColor = e.value;
+        $(kendokaSvg).find(".kendoka-armour").each(function(i, el) {
+          $(el).attr('fill', selectedColor);
+        })
+    }
+
+    $(document).ready(function() {
+        $("#colorGradient").kendoColorGradient({
+            input: true,
+            value: "#E26841",
+            change: select,
+            opacity: true,
+            format: "rgb",
+            formats:["rgb","hex"]
+        });
+    });
+</script>
+</body>
+</html>

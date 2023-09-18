@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Binding to DataSource</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example" style="margin:auto; width:60%">
+    <div id="scrollView" style="height: 500px; width:100%;"></div>
+
+    <script id="scrollview-template" type="text/x-kendo-template">
+        <div class="img-wrapper">
+            # for (var i = 0; i < data.length; i++) { #
+            <div>
+                <div style="width: 140px; height: 140px; background-image: #=setBackground(data[i].ProductID)#; background-repeat:no-repeat; background-size: cover;"></div>
+                <p>#= data[i].ProductName #</p>
+            </div>
+         # } #
+        </div>
+    </script>
+
+    <script>
+        var dataSource = new kendo.data.DataSource({
+            type: "odata",
+            transport: {
+                read: {
+                    url: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"
+                }
+            },
+            serverPaging: true,
+            pageSize: 3
+        });
+
+        $("#scrollView").kendoScrollView({
+            dataSource: dataSource,
+            template: $("#scrollview-template").html(),
+            contentHeight: "100%",
+            enablePager: false
+        });
+
+        function setBackground(id) {
+            return "url(https://demos.telerik.com/kendo-ui/content/web/foods/" + id + ".jpg)";
+        }
+    </script>
+
+    <style>
+        .k-scrollview-wrap .img-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            vertical-align: middle;
+            align-items: center;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .k-scrollview-wrap .img-wrapper>div {
+            width: 30%;
+            min-width: 150px;
+            box-sizing: border-box;
+            display: inline-block;
+            vertical-align: top;
+            margin-bottom: 1em;
+        }
+
+        .k-scrollview-wrap .img-wrapper>div>div {
+            margin: auto;
+            margin-bottom: 0.5em;
+        }
+    </style>
+</div>
+</body>
+</html>

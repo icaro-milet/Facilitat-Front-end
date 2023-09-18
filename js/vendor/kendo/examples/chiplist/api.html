@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>API</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+			<div class="configurator">
+                <div class="header">Configurator</div>
+				<div class="box-col">
+					<h4>SELECT CHIP ITEM</h4>
+					<ul class="options">
+					    <li>
+					        <input type="text" value="1" id="inputSetValue" style="width: 50px" />
+                            <button id="buttonSelectValue" type="button">Select Item</button>
+					    </li>
+					</ul>
+				</div>
+                <div class="box-col">
+                    <h4>ENABLE / DISABLE EDIT CHIP ITEM</h4>
+                    <ul class="options">
+						<li>
+					        <input type="text" value="1" id="inputEnableValue" style="width: 50px"  />
+							<button id="enableChipList" type="button">Enable</button>
+                            <button id="disableChipList" type="button">Disable</button>
+					    </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+                <div id="chiplist"></div>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+                    var chiplist = $('#chiplist').kendoChipList({
+						selectable: "single",
+						items: [
+							{ icon: 'plus', label: 'Add', selected: true },
+							{ icon: 'pencil', label: 'Edit', attributes: { id: "edit" }, selected: true },
+							{ icon: 'trash', label: 'Remove', selected: true }
+						]
+					}).data("kendoChipList");
+
+					$("#buttonSelectValue").click(function () {
+						chiplist.select(chiplist.item($("#inputSetValue").val()));
+					});
+
+                    $("#enableChipList").click(function(){
+						var item = chiplist.item($("#inputEnableValue").val());
+                        chiplist.enable(item, true);
+                    });
+
+                    $("#disableChipList").click(function(){
+						var item = chiplist.item($("#inputEnableValue").val());
+                        chiplist.enable(item, false);
+                    });
+                });
+            </script>
+
+</body>
+</html>

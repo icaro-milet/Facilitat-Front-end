@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="k-d-flex k-flex-1 k-flex-col k-px-8 k-pt-7">
+    <div class="kd-header k-d-flex k-gap-8 k-mb-6 k-justify-content-stretch">
+        <div class="kd-header-core k-d-flex k-flex-col">
+            <h2 class="k-h4 k-mt-0 k-mb-4 k-opacity-30">Reservation Dates</h2>
+            <div id="daterangepicker" title="daterangepicker"></div>
+            <div class="k-w-24 k-h-4 k-mt-5 k-skeleton k-opacity-40 k-rounded-md"></div>
+            <div class="k-w-full k-h-8 k-mt-1.5 k-mb-auto k-skeleton k-opacity-30 k-rounded-md"></div>
+            <div class="kd-actions k-d-flex k-mt-5 k-justify-content-end">
+                <div class="k-w-20 k-h-8 k-skeleton k-opacity-40 k-rounded-md"></div>
+                <div class="k-w-20 k-h-8 k-ml-4 k-skeleton k-opacity-50 k-rounded-md"></div>
+            </div>
+        </div>
+        <div class="kd-image-wrapper !k-d-flex k-justify-content-center k-align-items-center k-skeleton k-opacity-10 k-border k-border-secondary k-border-solid k-rounded-md">
+        <span class="k-icon k-i-image k-opacity-70"></span>
+        </div>
+    </div>
+    <div class="kd-content k-mt-2 k-grow k-skeleton k-opacity-30 k-rounded-tl-md k-rounded-tr-md"></div>
+</div>
+
+<style>
+    .kd-image-wrapper > .k-icon {
+      font-size: 72px;
+    }
+
+    /* Breakpoints for full screen demo: max:599px, min:759px and max: 959 */
+    @media (max-width: 678px), (min-width: 821px) and (max-width: 1038px), (min-width: 1241px) and (max-width: 1328px) {
+      .kd-image-wrapper {
+        display: none !important;
+      }
+
+      .kd-actions div {
+        width: auto;
+        flex-grow: 1;
+      }
+
+      .kd-content {
+        margin-top: 24px;
+      }
+    }
+
+    /* Breakpoint for full screen demo: max:359px */
+    @media (max-width: 476px) {
+      .kd-header {
+        height: 100%;
+      }
+
+      .kd-header-core {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .kd-actions {
+        flex-direction: column;
+      }
+      .kd-actions > div {
+        margin-left: 0;
+        margin-top: 8px;
+      }
+      .kd-content {
+        display: none;
+      }
+
+	  .k-daterangepicker .k-dateinput{
+		  width: 50%;
+	  }
+    }
+</style>
+
+<script>
+    $(document).ready(function() {	
+        // create DateRangePicker from input HTML element
+        $("#daterangepicker").kendoDateRangePicker({
+            "messages": {
+				"startLabel": "Check-In",
+				"endLabel": "Check-Out"
+			}
+        });
+    });
+</script>
+</body>
+</html>

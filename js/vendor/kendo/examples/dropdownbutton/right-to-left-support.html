@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>RTL Support</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example">
+
+    <div class='k-rtl' style="margin-top:150px;">
+       <button id="button">Paste</button>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#button").kendoDropDownButton({
+                icon: "clipboard",
+                items: [
+                    { id: "keep-text", text: "Keep Text Only", icon: "clipboard-text" },
+                    { id: "paste-html", text: "Paste as HTML", icon: "clipboard-code" },
+                    { id: "paste-markdown", text: "Paste Markdown", icon: "clipboard-markdown" },
+                    { id: "paste-default", text: "Set Default Paste" }
+                ]
+            });
+        });
+    </script>
+    <style>
+        #example {
+            text-align: center;
+        }
+    </style>
+</div>
+</body>
+</html>

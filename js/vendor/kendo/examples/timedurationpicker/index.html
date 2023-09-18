@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="k-d-flex k-justify-content-center" style="padding-top: 27px;">
+    <div class="k-w-300">
+        <div id="window">
+            <div class="banner">
+            </div>
+        </div>
+        <form id="exampleform"></form>
+    </div>
+</div>
+
+<script>
+    let interval;
+
+    $(document).ready(function() {
+        $("#window").kendoWindow({
+            height: 397,
+            width: 443,
+            visible: false,
+            resizable: false,
+            title: false,
+            draggable: {
+                dragHandle: "#window"
+            }
+        });
+
+        $("#exampleform").kendoForm({
+            orientation: "vertical",
+            formData: {
+                Title: "Modern UI Made Easy",
+                Start: new Date(new Date().getTime() + 15 * 60000),
+                Duration: 5400000,
+                Banner: 900000
+            },
+            items: [{
+                type: "group",
+                label: "Conference Session",
+                items: [
+                    { field: "Title", label: "Session title:", validation: { required: true } },
+                    { field: "Start", label: { text: "Start:" }, editor: "DateTimePicker", validation: { required: true } },
+                    {
+                        field: "Duration", label: "Duration:",
+                        editor: function(container, options) {
+                            $("<input id='Duration' data-validateDurationRequired-msg='Duration is required.' data-validateDuration-msg='Should be less than 5 hours' name='" + options.field + "'data-bind='value: " + options.field + "'/>")
+                                .appendTo(container)
+                                .kendoTimeDurationPicker({
+                                    columns: [{ format: "# hours ", name: "hours", max: 4 }, { format: " ## minutes", name: "minutes", step: 15 }],
+                                    separator: ":",
+                                    shortcuts: [
+                                        { text: "1 h", value: 3600000 },
+                                        { text: "1 h 30 m", value: 5400000 }
+                                    ]
+                                })
+                        },
+                        validation: {
+                            validateDuration: function(input) {
+                                if (input.is("[name='Duration']")) {
+                                    return !input.getKendoTimeDurationPicker()._validationIcon.is(":visible");
+                                }
+                                return true;
+                            },
+                            validateDurationRequired: function(input) {
+                                if (input.is("[name='Duration']")) {
+                                    return input.getKendoTimeDurationPicker().value() > 0;
+                                }
+                                return true;
+                            }
+                        }
+                    },
+                    {
+                        field: "Banner", label: "Show banner before the session:",
+                        editor: function(container, options) {
+                            $("<input id='Banner' data-validateBanneRequired-msg='Banner is required.' data-validateBanner-msg='Should not be more than 30 min' name='" + options.field + "'data-bind='value: " + options.field + "'/>")
+                                .appendTo(container)
+                                .kendoTimeDurationPicker({
+                                    columns: [{ format: "## minutes", name: "minutes", max: 30, min: 1 }]
+                                })
+                        },
+                        validation: {
+                            validateBanner: function(input) {
+                                if (input.is("[name='Banner']")) {
+                                    return !input.getKendoTimeDurationPicker()._validationIcon.is(":visible");
+                                }
+                                return true;
+                            },
+                            validateBanneRequired: function(input) {
+                                if (input.is("[name='Banner']")) {
+                                    return input.getKendoTimeDurationPicker().value() > 0;
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                ]
+            }],
+            submit: function(e) {
+                let model = e.model;
+                let duration = convertToTime(model.Duration),
+                    banner = convertToTime(model.Banner);
+
+                e.preventDefault();
+
+                $(".banner").html(`
+                    <button class='close'></button>
+                    <div class="title">${duration.hours}h ${duration.minutes}m <strong>${model.Title}</strong></div>
+                    <div class="title">session will start in</div>
+                    <div class="countdown">${banner.minutes} : ${banner.seconds}0</div>
+                `);
+
+                initCloseButton();
+                countdown(model.Banner);
+
+                $("#window").data("kendoWindow").open().center();
+            }
+        });
+    });
+
+    function countdown(ms) {
+        clearInterval(interval);
+        interval = setInterval(() => {
+            ms -= 1000,
+                banner = convertToTime(ms);
+
+            $(".countdown").html(`${banner.minutes} : ${banner.seconds < 10 ? 0 : ''}${banner.seconds}`);
+
+            if (ms === 0) {
+                clearInterval(interval);
+                $(".countdown").html(`STARTING`);
+            }
+        }, 1000);
+    }
+
+    function convertToTime(milliseconds) {
+        let seconds = Math.floor(milliseconds / 1000);
+        let minutes = Math.floor(seconds / 60);
+        let hours = Math.floor(minutes / 60);
+
+        seconds = seconds % 60;
+        minutes = minutes % 60;
+        hours = hours % 24;
+
+        return {
+            hours,
+            minutes,
+            seconds
+        };
+    }
+
+    function initCloseButton() {
+        $(".close").kendoButton({
+            size: "small",
+            icon: "x",
+            click: () => {
+                $("#window").data("kendoWindow").close();
+            }
+        });
+    }
+</script>
+
+<style>
+    #window {
+        padding: 0;
+    }
+
+    .banner {
+        background-image: url("../content/web/timedurationpicker/banner.png");
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: none;
+    }
+
+    .title {
+        font-size: 28px;
+        color: #666666;
+    }
+
+    .countdown {
+        font-size: 42px;
+        color: #006AE8;
+        padding-top: 10px;
+    }
+
+    .close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        padding: 2px !important;
+        color: #424242;
+        background-color: #f5f5f5;
+    }
+</style>
+
+</body>
+</html>

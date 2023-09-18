@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="demo-wrapper k-d-grid k-gap-8 k-flex-1 k-px-8 k-pt-8 k-pb-8">
+    <div data-role="kendokacontainer" class="kendoka-container k-bg-light !k-d-flex k-flex-col k-flex-1 k-align-items-center k-px-5 k-rounded-md" aria-live="polite" aria-label="Loading...">
+        <object class="kendoka" type="image/svg+xml" data="../content/web/kendoka/kendoka.svg"></object>
+    </div>
+    <div class="main-container k-d-flex k-flex-col">
+        <div class="k-d-flex k-gap-3 k-align-items-center k-mb-5">
+			<h4 class="k-h4 k-opacity-20 k-font-bold">T-shirt Design</h4>
+        </div>
+        <div class="k-d-flex k-flex-col k-gap-1">
+			<span class="k-skeleton k-opacity-40 k-rounded-md k-w-24 k-px-3 k-h-4"></span>
+			<div class="k-d-flex k-gap-5">
+                <span class="k-skeleton k-opacity-30 k-rounded-md k-h-8 k-flex-1"></span><input id="picker" />
+            </div>
+        </div>        
+
+        <div class="k-d-flex k-flex-col k-grow k-gap-1 k-mt-5">
+			<span class="k-skeleton k-opacity-40 k-rounded-md k-w-24 k-px-3 k-h-4"></span>
+			<span class="content-expanded k-grow k-skeleton k-opacity-30 k-rounded-md k-h-14"></span>
+        </div>
+
+        <div class="kd-actions k-d-flex k-mt-5 k-justify-content-end">
+                <div class="k-w-20 k-h-8 k-skeleton k-opacity-40 k-rounded-md"></div>
+                <div class="k-w-20 k-h-8 k-ml-4 k-skeleton k-opacity-50 k-rounded-md"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .demo-wrapper {
+        grid-template-columns: 1fr 272px;
+    }
+
+    .kendoka {
+        width: 205px;
+        height: 235px;
+        margin: auto;
+    }
+
+    .k-h4 {
+        line-height: 32px;
+        margin-bottom: 0;
+		font-weight: 700;
+	}
+
+    .content-expanded {
+        height: 250px;
+    }
+
+
+    /* Breakpoints for full screen demo: max:599px, min:759px and max: 959 */
+    @media (max-width: 730px), (min-width: 821px) and (max-width: 1090px), (min-width: 1241px) and (max-width: 1380px) {
+      .demo-wrapper {
+        grid-template-columns: 1fr;
+        padding-inline: 16px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+
+      .kendoka {
+        width: 155px;
+        height: 180px;
+      }
+
+		.kendoka-container {
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+
+      .content-expanded {
+        height: 215px;
+      }
+    }
+</style>
+
+<script>
+    var kendokaSvg;
+    window.onload = function() {
+        // Get the kendoka object by ID
+        var kednokaObj = document.getElementsByClassName("kendoka");
+        // Get the SVG document inside the Object tag
+        var svgDoc = kednokaObj[0].contentDocument;
+        // Get the kendoka SVG by ID
+        kendokaSvg = svgDoc.getElementById("kendoka-svg");
+    };
+
+    function preview(e) {
+        var selectedColor = e.value;
+        $(kendokaSvg).find(".kendoka-armour").each(function(i, el) {
+          $(el).attr('fill', selectedColor);
+        })
+    }
+
+    $(document).ready(function() {
+        $("#picker").kendoColorPicker({
+            input: false,
+            preview:false,
+            value: "#E26841",
+            buttons: false,
+            select: preview,
+            views: ["gradient"]
+        });
+    });
+</script>
+
+</body>
+</html>

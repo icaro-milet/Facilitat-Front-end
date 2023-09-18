@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Events</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+
+    <div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+        <span id="chip"></span>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            function onClick(e) {
+                kendoConsole.log("Click :: " + e.sender.element.text());
+            };
+
+            function onSelect(e) {
+                kendoConsole.log("Select :: " + e.sender.element.text());
+            };
+
+            function onRemove(e) {
+                kendoConsole.log("Remove :: " + e.sender.element.text());
+            };
+
+            $('#chip').kendoChip({
+                themeColor: "base",
+                size: "large",
+                label: "Chip Label",
+                removeIcon: "trash",
+                icon: "save",
+                removable: true,
+                selectable: true,
+                click: onClick,
+                select: onSelect,
+                remove: onRemove
+            });
+        });
+    </script>
+</body>
+</html>

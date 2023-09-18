@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Keyboard Navigation</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example">
+    <div class="demo-section wide">
+        <div id="imageEditor"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#imageEditor").kendoImageEditor({
+                imageUrl: "../content/shared/images/photos/12.jpg",
+                width: "100%",
+                height: 900,
+                saveAs: {
+                    fileName: "image_edited.png"
+                }
+            });
+        });
+
+        $(document).on("keydown", function(e) {
+                if (e.altKey && e.keyCode === 87) {
+                    $("#imageEditor").data("kendoImageEditor").toolbar.element.find("[tabindex=0]").trigger("focus");
+                }
+            });
+    </script>
+</div>
+</body>
+</html>

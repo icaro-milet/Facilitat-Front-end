@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Adaptive Mode</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class='note' style="text-align: center;">
+    <p>
+        Resize the browser to see how the DropDownTree popup adapts to different resolutions.
+    </p>       
+</div>
+
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px;">
+	<div class="k-w-300">
+		<label for="dropdowntree">Select an item</label>
+		<input id="dropdowntree"/>
+    </div>
+</div>
+	
+<script>
+    var serviceRoot = "https://demos.telerik.com/kendo-ui/service";
+        homogeneous = new kendo.data.HierarchicalDataSource({
+            transport: {
+                read: {
+                    url: serviceRoot + "/Employees",
+                    dataType: "jsonp"
+                }
+            },
+            schema: {
+                model: {
+                    id: "EmployeeId",
+                    hasChildren: "HasEmployees"
+                }
+            }
+        });
+
+    $("#dropdowntree").kendoDropDownTree({
+        adaptiveMode:"auto",
+        size: "large",
+        placeholder: "Select ...",
+        dataSource: homogeneous,
+        height: "auto",
+        dataTextField: "FullName"
+    });
+</script>
+
+<style>
+    .note {
+        font: normal 18px "Metric";
+        border-radius: 2px;
+        margin: 20px auto 40px auto;
+        padding: 20px;
+        border-left: 4px solid;
+        border-left-color: #5392e4;
+        background: rgba(83,146,228,0.1);
+        text-align: center;
+    }
+</style>
+</body>
+</html>

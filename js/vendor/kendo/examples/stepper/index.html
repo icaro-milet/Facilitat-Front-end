@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example">
+    <div class="demo-section wide">
+        <nav id="stepper"></nav>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#stepper").kendoStepper({
+                linear:false,
+                steps: [{
+                    label: "Personal Info",
+                    icon:"user"
+                },{
+                    label: "Education",
+                    icon:"book",
+                    error: true
+                },{
+                    label: "Experience",
+                    icon:"flip-vertical",
+                    selected: true
+                },{
+                    label: "Attachments",
+                    icon: "paperclip"
+                },{
+                    label: "Review",
+                    icon:"eye",
+                    enabled: false
+                },{
+                    label: "Submit",
+                    icon: "file-add"
+                }]
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Export as Image</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<button id="export">Export as PNG</button>
+
+<div class="k-d-flex k-justify-content-center">
+    <div id="signature"></div>
+</div>
+
+<script>
+    let signature = $("#signature").kendoSignature({ width: 600, height: 340, popupScale: 1 }).getKendoSignature();
+
+    $("#export").kendoButton({
+        click: function() {
+            kendo.saveAs({
+                dataURI: signature.value(),
+                fileName: "signature.png"
+            })
+        }
+    });
+</script>
+</body>
+</html>

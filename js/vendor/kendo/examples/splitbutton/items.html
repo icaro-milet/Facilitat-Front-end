@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Items</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example">
+
+    <div style="margin-top:100px;">
+       <button id="button">Paste</button>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#button").kendoSplitButton({                  
+                icon: "clipboard",
+                items: [
+                    { id: "keep-text", text: "Keep Text Only", icon: "clipboard-text" },
+                    { id: "paste-html", text: "Paste as HTML", icon: "clipboard-code", hidden:true },
+                    { id: "paste-markdown", text: "Paste Markdown", icon: "clipboard-markdown", enabled:false },
+                    { id: "favourite", text: "Mark As Favourite", imageUrl: '../content/shared/icons/16/star.png'},
+                    { id: "paste-default", text: "Set Default Paste"  }
+                ]
+            });
+        });
+    </script>
+    <style>
+        #example {
+            text-align: center;
+        }
+    </style>
+</div>
+</body>
+</html>

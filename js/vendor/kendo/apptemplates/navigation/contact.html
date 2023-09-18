@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Contact - My Kendo UI Application</title>
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/6.6.0/default/default-ocean-blue.css">
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://kendo.cdn.telerik.com/2023.2.718/js/kendo.all.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title"><a href="/">your logo here</a></p>
+                </div>
+                <div class="float-right">
+                    <nav>
+                        <ul id="menu">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            <section class="content-wrapper main-content clear-fix">
+            <hgroup class="title">
+                <h1>Contact.</h1>
+                <h2>Your contact page.</h2>
+            </hgroup>
+            <h3>Kendo UI TabStrip</h3>
+            <br />
+            <div id="contactsTabStrip">
+                <ul>
+                    <li class="k-active">
+                        <span class="k-link">Phone</span>
+                    </li>
+                    <li>
+                        <span class="k-link">Email</span>
+                    </li>
+                    <li>
+                        <span class="k-link">Address</span>
+                    </li>
+                </ul>
+                <div>
+                    <p>
+                        <span class="label">Main:</span>
+                        <span>425.555.0100</span>
+                    </p>
+                    <p>
+                        <span class="label">After Hours:</span>
+                        <span>425.555.0199</span>
+                    </p>
+                </div>
+                <div style="min-height: 200px">
+                    <p>
+                        <span class="label">Support:</span>
+                        <span><a href="mailto:Support@example.com">Support@example.com</a></span>
+                    </p>
+                    <p>
+                        <span class="label">Marketing:</span>
+                        <span><a href="mailto:Marketing@example.com">Marketing@example.com</a></span>
+                    </p>
+                    <p>
+                        <span class="label">General:</span>
+                        <span><a href="mailto:General@example.com">General@example.com</a></span>
+                    </p>
+                </div>
+                <div style="min-height: 200px">
+                    <p>
+                        One Microsoft Way<br />
+                        Redmond, WA 98052-6399
+                    </p>
+                </div>
+            </div>
+                <script>
+                    $(function(){
+                        $("#contactsTabStrip").kendoTabStrip();
+                    });
+                </script>
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; 2023 - My Kendo UI Application</p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

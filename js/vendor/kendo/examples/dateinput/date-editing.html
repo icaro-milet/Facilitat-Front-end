@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Date Editing</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="configurator">
+    <div class="header">Configurator</div>
+		<div class="box-col">
+		<h4>Set Auto Switch Behavior</h4>
+		    <ul class="options">            
+		        <li><input id="auto-switch-key" /></li>
+				<li><input id="auto-switch" /></li>
+		    </ul>			
+		</div>
+		<div class="box-col">
+		    <ul class="options col-no-header">            
+				<li><input id="auto-correct" /></li>
+				<li><input id="mouse-wheel" /></li>
+		    </ul>			
+		</div>
+		<div class="box-col col-second">
+        <h4>Steps</h4>
+        <ul class="options">            
+            <li class="kd-steps"><input id="year" value="1"/><input id="month" value="1" /></li>			
+			<li class="kd-steps"><input id="day" value="1" /><button id="reset">Apply steps</button></li>
+        </ul>
+		</div>
+</div>
+
+<div class="k-d-flex k-justify-content-center" style="padding-top: 54px; padding-bottom: 54px;">
+     <div class="k-w-300">
+        <label for="dateinput">Enter a date:</label>      
+		<input id="dateinput" title="please enter date"/>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+		var autoSwitchSelected = [];
+		var dateinput = $("#dateinput").kendoDateInput({
+			format: "dd/MM/yyyy",
+			min: new Date(2014, 0, 1),
+			max: new Date(2024, 0, 1),
+			steps: {
+				year: 2,
+			    month: 2,
+			    day: 5
+			}
+		}).data("kendoDateInput");		
+
+		$("#auto-switch").kendoCheckBox({
+			label: "Enable auto switch parts",
+			change: function(e){
+				var isChecked = e.checked;
+				dateinput.setOptions({
+					autoSwitchParts: isChecked
+				})
+			}
+		});
+
+		$("#auto-switch-key").kendoMultiSelect({
+			placeholder: "Select auto-switch keys",
+			dataSource: [
+				{ id: 1 , text: 'Dash (-)', sign: '-'},
+				{ id: 2 , text: 'Slash (/)', sign: '/'},
+				{ id: 3 , text: 'Colon (:)', sign: ':'},
+				{ id: 4 , text: 'Plus (+)', sign: '+'},
+				{ id: 5 , text: 'Open bracket ([)', sign: '['}
+			],
+			dataTextField: "text",
+			dataValueField: "id",
+			downArrow: true,
+			index: 0,
+			select: function(e){				
+				autoSwitchSelected.push(e.dataItem.sign);				
+				dateinput.setOptions({
+					autoSwitchKeys: autoSwitchSelected
+				})
+			},
+			deselect: function(e){
+				var index = autoSwitchSelected.indexOf(e.dataItem.sign);
+				
+				console.log(autoSwitchSelected)
+				if (index > -1) {
+					autoSwitchSelected.splice(index, 1);					
+					dateinput.setOptions({
+						autoSwitchKeys: autoSwitchSelected
+					}) 
+				}				
+			}
+		});
+
+		$("#auto-correct").kendoCheckBox({
+			label: "Enable autocorrect",
+			checked: true,
+			change: function(e){
+				var isChecked = e.checked;
+				dateinput.setOptions({
+					autoCorrectParts: isChecked
+				})
+			}
+		});
+
+		$("#mouse-wheel").kendoCheckBox({
+			checked: true,
+			label: "Enable mouse wheel",
+			change: function(e){
+				var isChecked = e.checked;
+				dateinput.setOptions({
+					enableMouseWheel: isChecked
+				})
+			}
+		});
+
+		
+		 $("#year").kendoNumericTextBox({
+            label:{content:"Year:"},
+            format: "n0",
+            min:1,
+			max: 3000,
+			value: 2
+        });
+        $("#month").kendoNumericTextBox({
+            label:{content:"Month:"},
+            format: "n0",
+            min:1,
+			max: 12,
+			value: 2
+        });
+        $("#day").kendoNumericTextBox({
+            label:{content:"Day:"},
+            format: "n0",
+            min:1,
+			max: 31,
+			value: 5
+        });		
+
+		$('#reset').on('click', function(){
+			var yearSteps = $("#year").data('kendoNumericTextBox').value();
+			var monthSteps = $("#month").data('kendoNumericTextBox').value();
+			var daySteps = $("#day").data('kendoNumericTextBox').value();			
+
+			dateinput.setOptions({
+				steps: {
+					year: yearSteps,
+				    month: monthSteps,
+				    day: daySteps
+				}
+			})
+		})
+    })
+</script>
+
+<style>
+.configurator .k-multiselect {
+	width: 220px;
+}
+
+.configurator .k-numerictextbox{
+	width: 180px;
+}
+ .kd-steps{
+	 display: flex;
+	 gap: 10px;
+ }
+
+ .kd-steps label{
+	 margin-left: 0px !important;
+	 width: 32px;
+ }
+
+ .col-no-header{
+	 margin-top: 26px !important;
+	 margin-left: 15px !important;
+ }
+
+ #reset{
+	 margin-left: auto;
+ }
+
+ @media only screen and (min-width: 1340px)  {
+	 .col-second{
+		 margin-left: 60px;
+	}
+ }
+
+  @media only screen and (max-width: 580px)  {
+	 .kd-steps{
+		flex-direction: column;
+ }
+</style>
+</body>
+</html>

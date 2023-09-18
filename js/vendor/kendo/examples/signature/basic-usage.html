@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Basic usage</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div class="k-d-flex k-justify-content-center">
+    <div class="signature-container">
+        <div class="signature-wrapper">
+            <div id="signature"></div>
+        </div>
+        <div class="notes">
+            By using the Kendo UI for jQuery signature component,
+            you can enable your end-users to draw handwritten signatures
+            using touch or pointer devices.
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#signature").kendoSignature({
+        color: "red",
+        width: 600,
+        height: 340,
+        popupScale: 1
+    });
+</script>
+
+<style>
+    .signature-container {
+        width: 602px;
+    }
+
+    .signature-wrapper {
+        height: 341px;
+    }
+
+    div.notes {
+        font-style: italic;
+        border-width: 1px;
+        border-style: solid;
+        padding: 1em;
+    }
+
+    #signature, .notes {
+        border-color: rgba(0, 0, 0, 0.08);
+        border-width: 1px 1px 0 1px;
+        border-radius: 0;
+    }
+</style>
+</body>
+</html>

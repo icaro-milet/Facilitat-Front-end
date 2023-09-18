@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MVVM</title>
+    <meta charset="utf-8">
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../styles/default-ocean-blue.css" rel="stylesheet">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jszip.min.js"></script>
+    <script src="../../js/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    
+    
+</head>
+<body>
+    <a class="offline-button" href="../index.html">Back</a>
+<div id="example" style="text-align: center;">
+    <div class="demo-section wide" style="display: inline-block;">
+        <div style="display: inline-block;">
+            <h4>Choose a date</h4>
+            <div data-role="multiviewcalendar"
+                 data-bind="visible: isVisible,
+                            value: selectedDate,
+                            events: { change: onChange }"></div>
+        </div>
+
+    </div>
+    <script>
+        var viewModel = kendo.observable({
+            selectedDate: null,
+            isVisible: true,
+            onChange: function () {
+                kendoConsole.log("event :: change (" + kendo.toString(this.get("selectedDate"), "D") + ")");
+            }
+        });
+        kendo.bind($("#example"), viewModel);
+    </script>
+</div>
+
+</body>
+</html>

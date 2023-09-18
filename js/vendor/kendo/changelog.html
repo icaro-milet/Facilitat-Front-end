@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Changelog for Kendo UI Professional v2023.2.829 (Tue Aug 29 2023)</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font: .75em/1.5 Tahoma, sans-serif;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            font-size: normal;
+        }
+
+        h2 {
+            font-size: 2em;
+            font-weight: normal;
+            margin: 1.2em 0 .3em;
+            padding-bottom: .2em;
+        }
+
+        .breaking {
+            background-color: #e10c01;
+            color: #fff;
+            border-radius: 3px;
+            padding: 3px 4px;
+            display: inline-block;
+            font-size: 11px;
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        #page {
+            width: 50em;
+            margin: 0 auto 2em;
+            border-radius: 0 0 1em 1em;
+            box-shadow: 0 0 10px #ccc;
+            padding: 1em 2em 2em;
+        }
+
+        .poBoxIcon {
+            float: left;
+            font-size: 2em;
+            margin: 1.2em .5em 0 0;
+        }
+
+        .poTopLine {
+            border-top: 2px solid #e1e1e1;
+            margin: 17px 0 40px 0;
+        }
+    </style>
+    <base href="https://www.telerik.com/support/whats-new/kendo-ui-web/release-history">
+</head>
+
+<body>
+    <div id="page">
+        <h1 class="title">Release notes</h1>
+        <div class="tClear poTopLine"></div>
+        <h1>Common</h1>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <p><strong>What's fixed</strong></p>
+                <ul>
+                    <li>Source code build, using Custom, fails to load all dependencies <a href="https://github.com/telerik/kendo-ui-core/issues/7411">(#7411)</a></li>
+                </ul>
+            </div>
+        </div>
+        <h1>CSP Improvements</h1>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <h2>CSP errors in Grid when columns are initially hidden</h2>
+            </div>
+        </div>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <h2>CSP errors in Grid when sticky columns are enabled</h2>
+            </div>
+        </div>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <h2>Apply styles programmatically instead of inline for CSP compatibility</h2>
+            </div>
+        </div>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <h2>Remove inline styles in Gantt to make it CSP compatible</h2>
+            </div>
+        </div>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <h2>CSP errors in Scheduler</h2>
+            </div>
+        </div>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <h2>CSP errors in MultiColumnComboBox when width is set for a column</h2>
+            </div>
+        </div>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <h2>CSP errors in Grid due to inline styles in templates</h2>
+            </div>
+        </div>
+        <h1>Features and Updates</h1>
+        <div class="tClear poTopLine">
+            <h2>Breadcrumb</h2>
+            <p><strong>What's new</strong></p>
+            <ul>
+                <li>Add sizing to Breadcrumb</li>
+            </ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Chart</h2>
+            <p><strong>What's new</strong></p>
+            <ul>
+                <li>Pyramid Chart Type</li>
+            </ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Editor</h2>
+            <p><strong>What's fixed</strong></p>
+            <ul>
+                <li>Loading icon does not hide after deleting the last image in the Editor's ImageBrowser <a href="https://github.com/telerik/kendo-ui-core/issues/7182">(#7182)</a></li>
+            </ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Grid</h2>
+            <p><strong>What's new</strong></p>
+            <ul>
+                <li>Grid ContextMenu</li>
+            </ul>
+            <p><strong>What's fixed</strong></p>
+            <ul>
+                <li>Missing span with class="k-button-text" wrapping page numbers <a href="https://github.com/telerik/kendo-ui-core/issues/7480">(#7480)</a></li>
+                <li>JS error thrown by setting Grid column draggable true without setting reorderable.rows true <a href="https://github.com/telerik/kendo-ui-core/issues/7452">(#7452)</a></li>
+                <li>Filter and columns popups appear together in Grid's classic columnMenu <a href="https://github.com/telerik/kendo-ui-core/issues/7441">(#7441)</a></li>
+                <li>Unexpeced change event fired on clicking a Grid's custom icon button command <a href="https://github.com/telerik/kendo-ui-core/issues/7437">(#7437)</a></li>
+                <li>ForeignKey column value is not sanitized if raw HTML is inserted <a href="https://github.com/telerik/kendo-ui-core/issues/7436">(#7436)</a></li>
+                <li>Grid's FilterMenu does not show records for second criterion DropDownList when bound to a complex object <a href="https://github.com/telerik/kendo-ui-core/issues/7393">(#7393)</a></li>
+                <li>Not working Grid pdf.repeatHeaders option <a href="https://github.com/telerik/kendo-ui-core/issues/7386">(#7386)</a></li>
+                <li>Navigatable Grid with Row filter mode and detailTemplate does not execute filter <a href="https://github.com/telerik/kendo-ui-core/issues/7384">(#7384)</a></li>
+                <li>Kendo grid menu filter dropdown does not populate possible values for second/extra condition <a href="https://github.com/telerik/kendo-ui-core/issues/7249">(#7249)</a></li>
+                <li>Grid with Group paging cannot be filtered through the default search panel <a href="https://github.com/telerik/kendo-ui-core/issues/7223">(#7223)</a></li>
+                <li>The titles are not exported to Excel with exportSelectedToExcel method in Grid <a href="https://github.com/telerik/kendo-ui-core/issues/7203">(#7203)</a></li>
+            </ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>MultiColumnComboBox</h2>
+            <p><strong>What's fixed</strong></p>
+            <ul>
+                <li>MultiColumnComboBox does not display all items after selection <a href="https://github.com/telerik/kendo-ui-core/issues/7413">(#7413)</a></li>
+            </ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Pager</h2>
+            <p><strong>What's new</strong></p>
+            <ul>
+                <li>Update responsiveness in pager</li>
+            </ul>
+            <p><strong>What's fixed</strong></p>
+            <ul>
+                <li>Missing span with class="k-button-text" wrapping page numbers <a href="https://github.com/telerik/kendo-ui-core/issues/7480">(#7480)</a></li>
+            </ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Scheduler</h2>
+            <p><strong>What's fixed</strong></p>
+            <ul>
+                <li>Improve the performance of the slotByElement method in Scheduler <a href="https://github.com/telerik/kendo-ui-core/issues/7380">(#7380)</a></li>
+            </ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>TreeList</h2>
+            <p><strong>What's fixed</strong></p>
+            <ul>
+                <li>Grid's FilterMenu does not show records for second criterion DropDownList when bound to a complex object <a href="https://github.com/telerik/kendo-ui-core/issues/7393">(#7393)</a></li>
+                <li>Kendo grid menu filter dropdown does not populate possible values for second/extra condition <a href="https://github.com/telerik/kendo-ui-core/issues/7249">(#7249)</a></li>
+            </ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Upload</h2>
+            <p><strong>What's fixed</strong></p>
+            <ul>
+                <li>Upload file icon is missing when you select multiple files with batch:true <a href="https://github.com/telerik/kendo-ui-core/issues/7426">(#7426)</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
