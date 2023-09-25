@@ -1,0 +1,11 @@
+.k-tabstrip .demo-section {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.left, .right {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    margin-right: -4px;
+}
