@@ -1,4 +1,5 @@
 import { API_CONFIG } from "../../config/api.js";
+import "/js/kendo-ui-license.js";
 
 const TemplateService = {
     getTemplates(){
@@ -25,85 +26,154 @@ const TemplateService = {
                 dataContentField: "content",
                 dataSource: [
                     {
-                        text: "Serviços",
+                        text: "Criar Template",
                         imageUrl: "",
-                        content: $("<div/>").appendTo("#templateGrid").kendoGrid({
-                            dataSource: {
-                                data: data,
-                                pageSize: 6,
-                                serverPaging: true,
-                                serverSorting: true
-                            },
-                            height: 600,
-                            dataBound: function() {
-                                this.expandRow(this.tbody.find("tr.k-master-row").first());
-                            },
-                            columns: [
-                                {
-                                    field: "name",
-                                    title: "Name",
-                                    width: "110px"
-                                }
-                            ],
-                            detailTemplate: kendo.template($("#subgrid-template").html()),
-                            detailInit: createSubGrid
-                        })
-                    },
-                    {
-                        text: "Cadastro",
-                        imageUrl: "",
-                        content:  $("<div/>").appendTo("#form"),
-                        submit: $("#submitButton").click(function() {
-                            // Gather form data
-                            let formData = {
-                                username: $("#username").val(),
-                                email: $("#email").val()
-                            };
-                        
-                            // Send the data via AJAX
-                            $.ajax({
-                                url: `${API_CONFIG.BASE_URL}${API_CONFIG.ANSWER_POST_ENDPOINT}`,
-                                method: "POST", // or "GET" or other HTTP methods
-                                data: JSON.stringify(formData), // Pass the form data
-                                headers: {
-                                    'Content-Type':'application/json'
+                        content:  $(document).ready(function () {
+                            var validationSuccess = $("#validation-success");
+                            
+                            $("#exampleform").kendoForm({
+                                formData: {
+                                    name: $("#name").val(),
+                                    question_one: $("#question_one").val(),
+                                    question_two: $("#question_two").val()
                                 },
-                                success: function(response) {
-                                    // Handle success response
+                                layout: "grid",
+                                grid: {
+                                    cols: 4,
+                                    gutter: 20
+                                },
+                                items: [
+                                    {
+                                        type: "group",
+                                        label: "Perguntas do template",
+                                        layout: "grid",
+                                        grid: { cols: 1, gutter: 10},
+                                        items: [
+                                            { 
+                                                field: "name", 
+                                                label: "Nome do template:", 
+                                                validation: { required: true } 
+                                            },
+                                            { 
+                                                field: "question_one", 
+                                                label: "Primeira pergunta:", 
+                                                validation: { required: true } 
+                                            },
+                                            { 
+                                                field: "question_two", 
+                                                label: "Segunda pergunta:", 
+                                                validation: { required: true}
+                                            }
+                                        ]
+                                    }
+                                ],
+                                validateField: function(e) {
+                                    validationSuccess.html("");
+                                },
+                                submit: function(e) {
+
+                                    e.preventDefault();
+
+                                    let formData = {
+                                        name: $("#name").val(),
+                                        questions: {
+                                            question_one: $("#question_one").val(),
+                                            question_two: $("#question_two").val()
+                                        }
+                                    };
+
                                     console.log(formData);
-                                    console.log("Data sent successfully:", response);
+
+                                    $.ajax({
+                                        url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_POST_CREATE}`,
+                                        method: "POST", // or "GET" or other HTTP methods
+                                        data: JSON.stringify(formData),
+                                        headers: {
+                                            'Content-Type':'application/json'
+                                        },
+                                        success: function(response) {
+                                            // Handle success response
+                                            console.log("Data sent successfully:", response);
+                                        },
+                                        error: function(error) {
+                                            // Handle error
+                                            console.error("Error:", error);
+                                        }
+                                    });
+
+                                    
+                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
                                 },
-                                error: function(error) {
-                                    // Handle error
-                                    console.error("Error:", error);
+                                clear: function(ev) {
+                                    validationSuccess.html("");
                                 }
                             });
-                        })
-                    }
+                        }),
+                    },
+                    {
+                        text: "Respostas",
+                        imageUrl: "",
+                        content:  $("<div/>").appendTo("#form"),
+                        // submit: $("#submitButton").click(function() {
+                        //     // Gather form data
+                        //     let formData = {
+                        //         username: $("#username").val(),
+                        //         email: $("#email").val()
+                        //     };
+                        
+                        //     // Send the data via AJAX
+                        //     $.ajax({
+                        //         url: `${API_CONFIG.BASE_URL}${API_CONFIG.ANSWER_POST_ENDPOINT}`,
+                        //         method: "POST", // or "GET" or other HTTP methods
+                        //         data: JSON.stringify(formData), // Pass the form data
+                        //         headers: {
+                        //             'Content-Type':'application/json'
+                        //         },
+                        //         success: function(response) {
+                        //             // Handle success response
+                        //             console.log("Data sent successfully:", response);
+                        //         },
+                        //         error: function(error) {
+                        //             // Handle error
+                        //             console.error("Error:", error);
+                        //         }
+                        //     });
+                        // })
+                    },
+                    // {
+                    //     text: "Serviços",
+                    //     content: $("<div/>").appendTo("#templateGrid").kendoGrid({
+                    //         dataSource: {
+                    //             data: data,
+                    //             pageSize: 6,
+                    //             serverPaging: true,
+                    //             serverSorting: true
+                    //         },
+                    //         height: 600,
+                    //         dataBound: function() {
+                    //             this.expandRow(this.tbody.find("tr.k-master-row").first());
+                    //         },
+                    //         columns: [
+                    //             {
+                    //                 field: "name",
+                    //                 title: "Name",
+                    //                 width: "110px"
+                    //             }
+                    //         ],
+                    //         detailTemplate: kendo.template($("#subgrid-template").html()),
+                    //         detailInit: createSubGrid
+                    //     })
+                    // }
                 ]
 
             }).data("kendoTabStrip").select(0);
         }
 
-        function submitForm(e){
-            $.ajax({
-                url: `${API_CONFIG.BASE_URL}${API_CONFIG.ANSWER_POST_ENDPOINT}`,
-                method: 'POST',
-                data: e.data,
-                headers: {
-                    'Content-Type':'application/javascript'
-                },
-                success: function(data){
-                    console.log(JSON.stringify(data))
-                },
-                error: function(error){
-                    console.error(error);
-                }
-            })
-        }
-
         function createSubGrid(e) { 
             $("<div/>").appendTo(e.detailCell).kendoGrid({
+                dataBound: function() {
+                    this.expandRow(this.tbody.find("tr.k-master-row").first());
+                },
                 dataSource: {
                     data: 'odata',
                 },
@@ -114,16 +184,23 @@ const TemplateService = {
                         headers: {
                             'Content-Type':'application/javascript'
                         },
-                        success: function(data){
-                            console.log(JSON.stringify(data))
+                        success: function(response){
+                            console.log(response)
+                            
                         },
                         error: function(error){
                             console.error(error);
                         }
                     })
                 },
-                dataBound: function() {
-                    this.expandRow(this.tbody.find("tr.k-master-row").first());
+                schema: {
+                    model: {
+                        fields: {
+                            service_order_code: { type: "number" },
+                            Username: { type: "string" },
+                            Email: { type: "string" }
+                        }
+                    }
                 },
                 scrollable: false,
                 columns: [
