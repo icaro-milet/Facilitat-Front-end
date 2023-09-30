@@ -71,7 +71,6 @@ const TemplateService = {
                                     validationSuccess.html("");
                                 },
                                 submit: function(e) {
-
                                     e.preventDefault();
 
                                     let formData = {
@@ -81,8 +80,6 @@ const TemplateService = {
                                             question_two: $("#question_two").val()
                                         }
                                     };
-
-                                    console.log(formData);
 
                                     $.ajax({
                                         url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_POST_CREATE}`,
@@ -100,7 +97,6 @@ const TemplateService = {
                                             console.error("Error:", error);
                                         }
                                     });
-
                                     
                                     validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
                                 },
@@ -113,32 +109,67 @@ const TemplateService = {
                     {
                         text: "Respostas",
                         imageUrl: "",
-                        content:  $("<div/>").appendTo("#form"),
-                        // submit: $("#submitButton").click(function() {
-                        //     // Gather form data
-                        //     let formData = {
-                        //         username: $("#username").val(),
-                        //         email: $("#email").val()
-                        //     };
-                        
-                        //     // Send the data via AJAX
-                        //     $.ajax({
-                        //         url: `${API_CONFIG.BASE_URL}${API_CONFIG.ANSWER_POST_ENDPOINT}`,
-                        //         method: "POST", // or "GET" or other HTTP methods
-                        //         data: JSON.stringify(formData), // Pass the form data
-                        //         headers: {
-                        //             'Content-Type':'application/json'
-                        //         },
-                        //         success: function(response) {
-                        //             // Handle success response
-                        //             console.log("Data sent successfully:", response);
-                        //         },
-                        //         error: function(error) {
-                        //             // Handle error
-                        //             console.error("Error:", error);
-                        //         }
-                        //     });
-                        // })
+                        content:  $("#answerform").kendoForm({
+                            formData: {
+                                name: $("#name").val(),
+                                question_one: $("#question_one").val(),
+                                question_two: $("#question_two").val()
+                            },
+                            layout: "grid",
+                            grid: {
+                                cols: 4,
+                                gutter: 20
+                            },
+                            items: [
+                                {
+                                    type: "group",
+                                    label: "Respostas",
+                                    layout: "grid",
+                                    grid: { cols: 1, gutter: 10},
+                                    items: [
+                                        { 
+                                            field: "Template", 
+                                            editor: "DropDownList", 
+                                            label: "Template", 
+                                            validation: { required: true }, 
+                                            colSpan: 1,
+                                            editorOptions: {
+                                                optionLabel: "Escolha um Template",
+                                                dataTextField: "name",
+                                                dataValueField: "id",
+                                                dataSource: {
+                                                    transport: {
+                                                        read: {
+                                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_ENDPOINT}`, // Replace with your API endpoint
+                                                            dataType: "json" // Set the data type expected from the server
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        { 
+                                            field: "question_one", 
+                                            label: "Primeira pergunta:", 
+                                            validation: { required: true } 
+                                        },
+                                        { 
+                                            field: "question_two", 
+                                            label: "Segunda pergunta:", 
+                                            validation: { required: true}
+                                        }
+                                    ]
+                                }
+                            ],
+                            validateField: function(e) {
+                                validationSuccess.html("");
+                            },
+                            submit: function(e) {
+                                
+                            },
+                            clear: function(ev) {
+                                validationSuccess.html("");
+                            }
+                        }),
                     },
                     // {
                     //     text: "Serviços",
