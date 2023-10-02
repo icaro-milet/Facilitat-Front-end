@@ -3,22 +3,7 @@ import "/js/kendo-ui-license.js";
 
 const TemplateService = {
     getTemplates(){
-        const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_ENDPOINT}`;
-        $.ajax({
-            url: apiUrl,
-            method: 'GET',
-            headers: {
-                'Content-Type':'application/javascript'
-            },
-            success: function(data){
-                makeTabStrip(data);
-            },
-            error: function(error){
-                console.error(error);
-            }
-        });
-
-        function makeTabStrip(data){
+        $(document).ready(function () {
             $("#tabstrip-images").kendoTabStrip({
                 animation: { open: { effects: "fadeIn"} },
                 dataTextField: "text",
@@ -26,7 +11,7 @@ const TemplateService = {
                 dataContentField: "content",
                 dataSource: [
                     {
-                        text: "Criar Template",
+                        text: "Template",
                         imageUrl: "",
                         content:  $(document).ready(function () {
                             var validationSuccess = $("#validation-success");
@@ -45,7 +30,7 @@ const TemplateService = {
                                 items: [
                                     {
                                         type: "group",
-                                        label: "Perguntas do template",
+                                        label: "Cadastro de template",
                                         layout: "grid",
                                         grid: { cols: 1, gutter: 10},
                                         items: [
@@ -107,140 +92,196 @@ const TemplateService = {
                         }),
                     },
                     {
-                        text: "Respostas",
-                        imageUrl: "",
-                        content:  $("#answerform").kendoForm({
-                            formData: {
-                                name: $("#name").val(),
-                                question_one: $("#question_one").val(),
-                                question_two: $("#question_two").val()
-                            },
-                            layout: "grid",
-                            grid: {
-                                cols: 4,
-                                gutter: 20
-                            },
-                            items: [
-                                {
-                                    type: "group",
-                                    label: "Respostas",
-                                    layout: "grid",
-                                    grid: { cols: 1, gutter: 10},
-                                    items: [
-                                        { 
-                                            field: "Template", 
-                                            editor: "DropDownList", 
-                                            label: "Template", 
-                                            validation: { required: true }, 
-                                            colSpan: 1,
-                                            editorOptions: {
-                                                optionLabel: "Escolha um Template",
-                                                dataTextField: "name",
-                                                dataValueField: "id",
-                                                dataSource: {
-                                                    transport: {
-                                                        read: {
-                                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_ENDPOINT}`, // Replace with your API endpoint
-                                                            dataType: "json" // Set the data type expected from the server
-                                                        }
-                                                    }
-                                                }
+                        text: "Ordem de serviço",
+                        content:  $(document).ready(function () {
+                            var validationSuccess = $("#validation-success");
+                            
+                            $("#serviceOrderForm").kendoForm({
+                                layout: "grid",
+                                grid: {
+                                    cols: 4,
+                                    gutter: 20
+                                },
+                                items: [
+                                    {
+                                        type: "group",
+                                        label: "Cadastro de ordem de serviço",
+                                        layout: "grid",
+                                        grid: { cols: 1, gutter: 10},
+                                        items: [
+                                            { 
+                                                field: "service_order_name", 
+                                                label: "Nome da ordem de serviço:", 
+                                                validation: { required: true } 
+                                            },
+                                            { 
+                                                field: "description", 
+                                                label: "Descrição:", 
+                                                validation: { required: true } 
                                             }
+                                        ]
+                                    }
+                                ],
+                                validateField: function(e) {
+                                    validationSuccess.html("");
+                                },
+                                submit: function(e) {
+                                    e.preventDefault();
+
+                                    let formData = {
+                                        service_order_name: $("#service_order_name").val(),
+                                        description: $("#description").val()
+                                    };
+
+                                    $.ajax({
+                                        url: `${API_CONFIG.BASE_URL}${API_CONFIG.SERVICE_ORDER_POST}`,
+                                        method: "POST", // or "GET" or other HTTP methods
+                                        data: JSON.stringify(formData),
+                                        headers: {
+                                            'Content-Type':'application/json'
                                         },
-                                        { 
-                                            field: "question_one", 
-                                            label: "Primeira pergunta:", 
-                                            validation: { required: true } 
+                                        success: function(response) {
+                                            // Handle success response
+                                            console.log("Data sent successfully:", response);
                                         },
-                                        { 
-                                            field: "question_two", 
-                                            label: "Segunda pergunta:", 
-                                            validation: { required: true}
+                                        error: function(error) {
+                                            // Handle error
+                                            console.error("Error:", error);
                                         }
-                                    ]
+                                    });
+                                    
+                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+                                },
+                                clear: function(ev) {
+                                    validationSuccess.html("");
                                 }
-                            ],
-                            validateField: function(e) {
-                                validationSuccess.html("");
-                            },
-                            submit: function(e) {
-                                
-                            },
-                            clear: function(ev) {
-                                validationSuccess.html("");
-                            }
+                            });
                         }),
                     },
-                    // {
-                    //     text: "Serviços",
-                    //     content: $("<div/>").appendTo("#templateGrid").kendoGrid({
-                    //         dataSource: {
-                    //             data: data,
-                    //             pageSize: 6,
-                    //             serverPaging: true,
-                    //             serverSorting: true
-                    //         },
-                    //         height: 600,
-                    //         dataBound: function() {
-                    //             this.expandRow(this.tbody.find("tr.k-master-row").first());
-                    //         },
-                    //         columns: [
-                    //             {
-                    //                 field: "name",
-                    //                 title: "Name",
-                    //                 width: "110px"
-                    //             }
-                    //         ],
-                    //         detailTemplate: kendo.template($("#subgrid-template").html()),
-                    //         detailInit: createSubGrid
-                    //     })
-                    // }
-                ]
+                    {
+                        text: "Respostas",
+                        content:  
+                            $("#templateDropdown").kendoDropDownList({
+                                label: { 
+                                    content: "Template",
+                                    floating: false
+                                },
+                                autoBind:false,
+                                dataTextField: "name",
+                                dataValueField: "id",
+                                filter:"contains",
+                                dataSource: {
+                                    transport: {
+                                        read: {
+                                            dataType: "json",
+                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_ENDPOINT}`,
+                                        }
+                                    }
+                                },
+                                change: function() {
+                                    const selectedValue = this.value(dataValueField); 
+                                    
+                                    console.log(selectedValue)
 
-            }).data("kendoTabStrip").select(0);
-        }
+                                    displayForm(selectedValue); 
 
-        function createSubGrid(e) { 
-            $("<div/>").appendTo(e.detailCell).kendoGrid({
-                dataBound: function() {
-                    this.expandRow(this.tbody.find("tr.k-master-row").first());
-                },
-                dataSource: {
-                    data: 'odata',
-                },
-                transport: {
-                    read: $.ajax({
-                        url: `${API_CONFIG.BASE_URL}${API_CONFIG.ANSWER_ENDPOINT}`,
-                        method: 'GET',
-                        headers: {
-                            'Content-Type':'application/javascript'
-                        },
-                        success: function(response){
-                            console.log(response)
-                            
-                        },
-                        error: function(error){
-                            console.error(error);
-                        }
-                    })
-                },
-                schema: {
-                    model: {
-                        fields: {
-                            service_order_code: { type: "number" },
-                            Username: { type: "string" },
-                            Email: { type: "string" }
-                        }
+                                    function displayForm(selectedValue) {
+                                        const myForm = $("#answerform");
+
+                                        const firstLabel = 
+                                        $.ajax({
+                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_GET_TEMPLATE_BY_ID_ENDPOINT}${selectedValue}`,
+                                            method: "GET", 
+                                            headers: {
+                                                'Content-Type':'application/json'
+                                            },
+                                            success: function(response) {
+                                                // Handle success response
+                                                console.log("Data sent successfully:", response);
+                                            },
+                                            error: function(error) {
+                                                // Handle error
+                                                console.error("Error:", error);
+                                            }
+                                        });
+
+                                        if (selectedValue === "Serviço") {
+                                            $("#answerform").kendoForm({
+                                                layout: "grid",
+                                                grid: {
+                                                    cols: 4,
+                                                    gutter: 20
+                                                },
+                                                items: [
+                                                    {
+                                                        type: "group",
+                                                        layout: "grid",
+                                                        grid: { cols: 1, gutter: 10},
+                                                        items: [
+                                                            { 
+                                                                field: "question_one", 
+                                                                label: firstLabel, 
+                                                                validation: { required: true } 
+                                                            },
+                                                            { 
+                                                                field: "question_two", 
+                                                                label: "Segunda pergunta:", 
+                                                                validation: { required: true}
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                validateField: function(e) {
+                                                    validationSuccess.html("");
+                                                },
+                                                submit: function(e) {
+                                                    e.preventDefault();
+                
+                                                    let formData = {
+                                                        name: $("#name").val(),
+                                                        questions: {
+                                                            question_one: $("#question_one").val(),
+                                                            question_two: $("#question_two").val()
+                                                        }
+                                                    };
+                
+                                                    $.ajax({
+                                                        url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_POST_CREATE}`,
+                                                        method: "POST", // or "GET" or other HTTP methods
+                                                        data: JSON.stringify(formData),
+                                                        headers: {
+                                                            'Content-Type':'application/json'
+                                                        },
+                                                        success: function(response) {
+                                                            // Handle success response
+                                                            console.log("Data sent successfully:", response);
+                                                        },
+                                                        error: function(error) {
+                                                            // Handle error
+                                                            console.error("Error:", error);
+                                                        }
+                                                    });
+                                                    
+                                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+                                                },
+                                                clear: function(ev) {
+                                                    validationSuccess.html("");
+                                                }
+                                            }); // Display the form
+
+                                            myForm.show();
+                                        } else {
+                                            myForm.hide(); // Hide the form
+                                        }
+                                    }
+                                }
+                                
+                            }),
+                             
                     }
-                },
-                scrollable: false,
-                columns: [
-                    { field: "service_order_code", title: "Service Order", width: "110px" },
-                    { field: "username", title:"Username", width: "110px" },
-                    { field: "email", title:"Email" , width: "110px"}
-                    ]
-                });
-        }
+                ]
+            }).data("kendoTabStrip").select(0);
+        });
     }
 }
 
