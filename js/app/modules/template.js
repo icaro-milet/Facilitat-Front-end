@@ -17,11 +17,6 @@ const TemplateService = {
                             var validationSuccess = $("#validation-success");
                             
                             $("#exampleform").kendoForm({
-                                formData: {
-                                    name: $("#name").val(),
-                                    question_one: $("#question_one").val(),
-                                    question_two: $("#question_two").val()
-                                },
                                 layout: "grid",
                                 grid: {
                                     cols: 4,
@@ -57,7 +52,7 @@ const TemplateService = {
                                 },
                                 submit: function(e) {
                                     e.preventDefault();
-
+                                    const exampleform = $("#exampleform");
                                     let formData = {
                                         name: $("#name").val(),
                                         questions: {
@@ -83,7 +78,10 @@ const TemplateService = {
                                         }
                                     });
                                     
-                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Template cadastrado</div>");
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
                                 },
                                 clear: function(ev) {
                                     validationSuccess.html("");
@@ -94,7 +92,7 @@ const TemplateService = {
                     {
                         text: "Ordem de serviço",
                         content:  $(document).ready(function () {
-                            var validationSuccess = $("#validation-success");
+                            var validationSuccess = $("#validation-success-service-order");
                             
                             $("#serviceOrderForm").kendoForm({
                                 layout: "grid",
@@ -135,22 +133,21 @@ const TemplateService = {
 
                                     $.ajax({
                                         url: `${API_CONFIG.BASE_URL}${API_CONFIG.SERVICE_ORDER_POST}`,
-                                        method: "POST", // or "GET" or other HTTP methods
+                                        method: "POST", 
                                         data: JSON.stringify(formData),
                                         headers: {
                                             'Content-Type':'application/json'
                                         },
                                         success: function(response) {
-                                            // Handle success response
                                             console.log("Data sent successfully:", response);
+                                            $("#serviceOrderForm").empty();
                                         },
                                         error: function(error) {
-                                            // Handle error
                                             console.error("Error:", error);
                                         }
                                     });
                                     
-                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Ordem de serviço cadastrada</div>");
                                 },
                                 clear: function(ev) {
                                     validationSuccess.html("");
@@ -179,18 +176,16 @@ const TemplateService = {
                                     }
                                 },
                                 change: function() {
-                                    const selectedValue = this.value(dataValueField); 
-                                    
-                                    console.log(selectedValue)
+                                    const selectedValue = this.value(); 
 
                                     displayForm(selectedValue); 
 
                                     function displayForm(selectedValue) {
                                         const myForm = $("#answerform");
 
-                                        const firstLabel = 
+                                        const template = 
                                         $.ajax({
-                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_GET_TEMPLATE_BY_ID_ENDPOINT}${selectedValue}`,
+                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_GET_TEMPLATE_BY_NAME_ENDPOINT}${selectedValue}`,
                                             method: "GET", 
                                             headers: {
                                                 'Content-Type':'application/json'
@@ -198,81 +193,81 @@ const TemplateService = {
                                             success: function(response) {
                                                 // Handle success response
                                                 console.log("Data sent successfully:", response);
+
+                                                $("#answerform").empty();
+
+                                                $("#answerform").kendoForm({
+                                                    layout: "grid",
+                                                    grid: {
+                                                        cols: 4,
+                                                        gutter: 20
+                                                    },
+                                                    items: [
+                                                        {
+                                                            type: "group",
+                                                            layout: "grid",
+                                                            grid: { cols: 1, gutter: 10},
+                                                            items: [
+                                                                { 
+                                                                    field: "question_one", 
+                                                                    label: response.questions.question_one, 
+                                                                    validation: { required: true } 
+                                                                },
+                                                                { 
+                                                                    field: "question_two", 
+                                                                    label: response.questions.question_two, 
+                                                                    validation: { required: true}
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    validateField: function(e) {
+                                                        validationSuccess.html("");
+                                                    },
+                                                    submit: function(e) {
+                                                        e.preventDefault();
+                    
+                                                        let formData = {
+                                                            name: $("#name").val(),
+                                                            questions: {
+                                                                question_one: $("#question_one").val(),
+                                                                question_two: $("#question_two").val()
+                                                            }
+                                                        };
+                    
+                                                        $.ajax({
+                                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_POST_CREATE}`,
+                                                            method: "POST", // or "GET" or other HTTP methods
+                                                            data: JSON.stringify(formData),
+                                                            headers: {
+                                                                'Content-Type':'application/json'
+                                                            },
+                                                            success: function(response) {
+                                                                // Handle success response
+                                                                console.log("Data sent successfully:", response);
+                                                            },
+                                                            error: function(error) {
+                                                                // Handle error
+                                                                console.error("Error:", error);
+                                                            }
+                                                        });
+                                                        
+                                                        validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+                                                        setTimeout(function() {
+                                                            location.reload();
+                                                        }, 1000);
+                                                    },
+                                                    clear: function(ev) {
+                                                        validationSuccess.html("");
+                                                    }
+                                                }); 
+    
+                                                myForm.show();
                                             },
                                             error: function(error) {
-                                                // Handle error
                                                 console.error("Error:", error);
                                             }
                                         });
-
-                                        if (selectedValue === "Serviço") {
-                                            $("#answerform").kendoForm({
-                                                layout: "grid",
-                                                grid: {
-                                                    cols: 4,
-                                                    gutter: 20
-                                                },
-                                                items: [
-                                                    {
-                                                        type: "group",
-                                                        layout: "grid",
-                                                        grid: { cols: 1, gutter: 10},
-                                                        items: [
-                                                            { 
-                                                                field: "question_one", 
-                                                                label: firstLabel, 
-                                                                validation: { required: true } 
-                                                            },
-                                                            { 
-                                                                field: "question_two", 
-                                                                label: "Segunda pergunta:", 
-                                                                validation: { required: true}
-                                                            }
-                                                        ]
-                                                    }
-                                                ],
-                                                validateField: function(e) {
-                                                    validationSuccess.html("");
-                                                },
-                                                submit: function(e) {
-                                                    e.preventDefault();
-                
-                                                    let formData = {
-                                                        name: $("#name").val(),
-                                                        questions: {
-                                                            question_one: $("#question_one").val(),
-                                                            question_two: $("#question_two").val()
-                                                        }
-                                                    };
-                
-                                                    $.ajax({
-                                                        url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_POST_CREATE}`,
-                                                        method: "POST", // or "GET" or other HTTP methods
-                                                        data: JSON.stringify(formData),
-                                                        headers: {
-                                                            'Content-Type':'application/json'
-                                                        },
-                                                        success: function(response) {
-                                                            // Handle success response
-                                                            console.log("Data sent successfully:", response);
-                                                        },
-                                                        error: function(error) {
-                                                            // Handle error
-                                                            console.error("Error:", error);
-                                                        }
-                                                    });
-                                                    
-                                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
-                                                },
-                                                clear: function(ev) {
-                                                    validationSuccess.html("");
-                                                }
-                                            }); // Display the form
-
-                                            myForm.show();
-                                        } else {
-                                            myForm.hide(); // Hide the form
-                                        }
                                     }
                                 }
                                 
