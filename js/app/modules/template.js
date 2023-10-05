@@ -14,78 +14,80 @@ const TemplateService = {
                         text: "Template",
                         imageUrl: "",
                         content:  $(document).ready(function () {
-                            var validationSuccess = $("#validation-success");
-                            
-                            $("#exampleform").kendoForm({
-                                layout: "grid",
-                                grid: {
-                                    cols: 4,
-                                    gutter: 20
-                                },
-                                items: [
-                                    {
-                                        type: "group",
-                                        label: "Cadastro de template",
-                                        layout: "grid",
-                                        grid: { cols: 1, gutter: 10},
-                                        items: [
-                                            { 
-                                                field: "name", 
-                                                label: "Nome do template:", 
-                                                validation: { required: true } 
-                                            },
-                                            { 
-                                                field: "question_one", 
-                                                label: "Primeira pergunta:", 
-                                                validation: { required: true } 
-                                            },
-                                            { 
-                                                field: "question_two", 
-                                                label: "Segunda pergunta:", 
-                                                validation: { required: true}
-                                            }
-                                        ]
-                                    }
-                                ],
-                                validateField: function(e) {
-                                    validationSuccess.html("");
-                                },
-                                submit: function(e) {
-                                    e.preventDefault();
-                                    const exampleform = $("#exampleform");
-                                    let formData = {
-                                        name: $("#name").val(),
-                                        questions: {
-                                            question_one: $("#question_one").val(),
-                                            question_two: $("#question_two").val()
-                                        }
-                                    };
+                            // Initialize the Template Name input
+                            $("#template-name").kendoMaskedTextBox();
 
-                                    $.ajax({
-                                        url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_POST_CREATE}`,
-                                        method: "POST", // or "GET" or other HTTP methods
-                                        data: JSON.stringify(formData),
-                                        headers: {
-                                            'Content-Type':'application/json'
-                                        },
-                                        success: function(response) {
-                                            // Handle success response
-                                            console.log("Data sent successfully:", response);
-                                        },
-                                        error: function(error) {
-                                            // Handle error
-                                            console.error("Error:", error);
-                                        }
-                                    });
-                                    
-                                    validationSuccess.html("<div class='k-messagebox k-messagebox-success'>Template cadastrado</div>");
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 1000);
-                                },
-                                clear: function(ev) {
-                                    validationSuccess.html("");
-                                }
+                            $("#template-description").kendoMaskedTextBox();
+
+                            // Handle adding questions dynamically
+                            $("#add-question").click(function () {
+                                // Create a new input field for a question
+                                var questionContainer = $("<div class='question-container'></div>");
+
+                                // Create a new input field for the question
+                                var questionInput = $("<input type='text' class='question-input' />");
+
+                                // Append the input field to the question container
+                                questionContainer.append(questionInput);
+
+                                // Append the question container to the #questions-container
+                                $("#questions-container").append(questionContainer);
+                            });
+
+                            // Handle saving the template
+                            $("#save-template").click(function () {
+                                var initialFormHtml = $("#template-screen").html();
+                                // Get the list of questions
+                                var questions = [];
+
+                                // Loop through your questions and create QuestionDto objects
+                                $(".question-input").each(function () {
+                                    var questionDto = {
+                                        Id: 0, // You can set the appropriate Id value here
+                                        TemplateId: 0, // You can set the appropriate TemplateId value here
+                                        QuestionText: $(this).val()
+                                    };
+                                    questions.push(questionDto);
+                                });
+
+                                var formData = {
+                                    Name: $("#template-name").val(),
+                                    Description: $("#template-description").val(),
+                                    Questions: questions
+                                };
+                                
+                                $.ajax({
+                                    url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_POST_CREATE}`,
+                                    method: "POST", // or "GET" or other HTTP methods
+                                    data: JSON.stringify(formData),
+                                    headers: {
+                                        'Content-Type':'application/json'
+                                    },
+                                    success: function(response) {
+                                        // Handle success response
+                                        console.log("Data sent successfully:", response);// Reset the form and clear input fields
+                                        // $("#template-screen").trigger("reset");
+                                
+                                        // // Clear question inputs (assuming they have a common class, e.g., "question-input")
+                                        // $(".question-input").each(function () {
+                                        //     $(this).val("");
+                                        // });
+                                        // $("#template-name").val("");
+                                        // $("#template-description").val("");
+                                        // $("#questions-container").trigger("reset");
+                                        $("#template-screen").html(initialFormHtml);
+                                        $(".question-input").val("");
+                                    },
+                                    error: function(error) {
+                                        // Handle error
+                                        console.error("Error:", error);
+                                    }
+                                });
+
+                                // Clear the input fields and display a success message
+                                $("#template-name").val("");
+                                $(".question-input").remove();
+                                alert("Template saved successfully!");
                             });
                         }),
                     },

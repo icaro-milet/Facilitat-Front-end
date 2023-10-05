@@ -1,16 +1,49 @@
-.k-tabstrip .demo-section {
-    padding-top: 10px;
-    padding-bottom: 10px;
+/* Style for the question container */
+.question-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    transition: border-color 0.3s, background-color 0.3s;
 }
 
-.left, .right {
-    display: inline-block;
-    width: 50%;
-    height: 100%;
-    margin-right: -4px;
+/* Style for the input field */
+.question-input {
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    transition: border-color 0.3s, background-color 0.3s;
 }
 
-#example .demo-section {
-    max-width: 600px;
-    width: 600px;
+/* Hover and focus styles */
+.question-container:hover, .question-input:focus {
+    border-color: #6c757d; /* Change to a slightly darker color on hover or focus */
+    background-color: #ffffff; /* Change to white on hover or focus */
+}
+
+/* Remove default styles for buttons */
+.k-button {
+    background: none;
+    color: #333;
+}
+
+/* Hover effect for buttons */
+.k-button:hover {
+    background-color: #eee;
+}
+
+/* Remove borders and shadows from dropdowns */
+.k-dropdown {
+    border: none;
+    box-shadow: none;
+}
+
+/* Minimalist form container */
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
 }
