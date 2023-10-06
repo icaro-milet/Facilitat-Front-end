@@ -92,7 +92,7 @@ const TemplateService = {
                                     displayForm(selectedValue); 
                                     function displayForm(selectedValue) {
                                         generateServiceOrder(selectedValue);
-
+                                        
                                         var answersUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_GET_TEMPLATE_BY_NAME_ENDPOINT}` + selectedValue;
                                         $.ajax({
                                             url: answersUrl, // Adjust the URL to your API endpoint
@@ -100,8 +100,12 @@ const TemplateService = {
                                             success: function (data) {
                                                 // Clear the existing content and populate the questions container
                                                 $('#questionsContainer').empty();
-                                                $.each(data.questions, function (index, question) {
-                                                    $('#questionsContainer').append('<input type="text" value="' + question + '" readonly />');
+                                                
+                                                let questions = data.Questions;
+
+                                                data.Questions.forEach(function (questions) {
+                                                    $('#questionsContainer').append(`<div class="question"> <label>` + questions.questionText + '</label></div>');
+                                                    $('#questionsContainer').append(`<input/>`);
                                                 });
                                             },
                                             error: function () {
