@@ -37,18 +37,19 @@
           <button id="save-template" class="k-button">Save Template</button>
       </div>
 
-        <div>
-          <div id="validation-success-service-order"></div>
-          <form id="serviceOrderForm"></form>
-        </div>
-
-        <div>
+        <div id="answers-screen" class="form-container">
           <div class="k-d-flex k-justify-content-left">
             <div class="k-w-300"> 
               <input id="templateDropdown" style="width: 100%;" />
+              <input type="text" 
+                id="serviceOrderInput" 
+                placeholder="Service Order Information" 
+                class="input-service-order"
+                readonly/>
+              
+              <div id="questionsContainer"></div>
             </div>
           </div>
-          <div id="validation-success"></div>
           <form id="answerform" style="display: none;"></form>
         </div>
         
