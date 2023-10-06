@@ -174,12 +174,6 @@ const TemplateService = {
                                         }
                                     }
 
-                                    function getServiceOrderId(){
-                                        var serviceOrderId = 0;
-
-
-                                    }
-
 
                                     function generateServiceOrder(selectedValue){
                                         if (selectedValue) {
@@ -201,10 +195,72 @@ const TemplateService = {
                                             $('#questionsContainer').empty();
                                         }
                                     }
-                                }
+                                },
+                                
                                 
                             }),
                              
+                    },
+                    {
+                        text: "Tabela de Respostas",
+                        content:  
+                            $("#templateGridDropdown").kendoDropDownList({
+                                label: { 
+                                    content: "Template",
+                                    floating: false
+                                },
+                                autoBind:false,
+                                dataTextField: "name",
+                                dataValueField: "id",
+                                filter:"contains",
+                                dataSource: {
+                                    transport: {
+                                        read: {
+                                            dataType: "json",
+                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_ENDPOINT}`,
+                                        }
+                                    }
+                                },
+                                change: function() {
+                                    const selectedValue = this.value(); 
+                                    displayGrid(selectedValue); 
+
+                                    function displayGrid(selectedValue) {
+                                        $("#grid").kendoGrid({
+                                            dataSource: {
+                                                data: [], 
+                                            },
+                                            columns: [
+                                                { 
+                                                    field: "Question", 
+                                                    title: "Question",
+                                                    template: function loadGridData(selectedValue){
+                                                        var questions = [];
+                                                        var templatesUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_GET_TEMPLATE_BY_NAME_ENDPOINT}` + selectedValue;
+                                                            $.ajax({
+                                                                url: templatesUrl,
+                                                                method: "GET", 
+                                                                success: function (response) {
+                                                                    console.log(response);
+                                                                    return questions
+                                                                },
+                                                                error: function () {}
+                                                            });
+                                                    }
+                                                 },
+                                                { field: "AnswerText", title: "Answer" },
+                                            ],
+                                            height: 400, 
+                                            sortable: true, 
+                                            pageable: true 
+                                        });
+                                    }
+
+                                    
+                                },
+                                
+                                
+                            }),
                     }
                 ]
             }).data("kendoTabStrip").select(0);
