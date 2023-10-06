@@ -24,7 +24,6 @@ const TemplateService = {
                             });
 
                             $("#save-template").click(function () {
-                                var initialFormHtml = $("#template-screen").html();
                                 var questions = [];
                                 $(".question-input").each(function () {
                                     var questionDto = {
@@ -32,7 +31,8 @@ const TemplateService = {
                                         TemplateId: 0, 
                                         QuestionText: $(this).val()
                                     };
-                                    questions.push(questionDto);
+                                    if (questionDto.QuestionText != '')
+                                        questions.push(questionDto);
                                 });
 
                                 var formData = {
@@ -50,7 +50,6 @@ const TemplateService = {
                                     },
                                     success: function(response) {
                                         console.log("Data sent successfully:", response);
-                                        $("#template-screen").html(initialFormHtml);
                                         $(".question-input").val("");
                                     },
                                     error: function(error) {
@@ -59,7 +58,7 @@ const TemplateService = {
                                     }
                                 });
                                 $("#template-name").val("");
-                                $(".question-input").remove();
+                                $("#template-description").val("");
                                 alert("Template saved successfully!");
                             });
                         }),
@@ -87,8 +86,6 @@ const TemplateService = {
                                 change: function() {
                                     const selectedValue = this.value(); 
 
-                                    
-
                                     displayForm(selectedValue); 
                                     function displayForm(selectedValue) {
                                         generateServiceOrder(selectedValue);
@@ -100,19 +97,89 @@ const TemplateService = {
                                             success: function (data) {
                                                 // Clear the existing content and populate the questions container
                                                 $('#questionsContainer').empty();
-                                                
-                                                let questions = data.Questions;
 
-                                                data.Questions.forEach(function (questions) {
+                                                data.Questions.forEach(function (questions, index) {
+                                                    var inputId = `question_${index}`;
                                                     $('#questionsContainer').append(`<div class="question"> <label>` + questions.questionText + '</label></div>');
-                                                    $('#questionsContainer').append(`<input/>`);
+                                                    $('#questionsContainer').append(`<input id="${inputId}" class='question-input'/>`);
                                                 });
+
+                                                $('#questionsContainer').append(`<button id="submit-answers" class="k-button">Save</button>
+                                                <button id="cancel-answers" class="k-button">Cancel</button>`);
+
+                                                submitAnswers(data);
                                             },
                                             error: function () {
                                                 // Handle errors if the AJAX request fails
-                                            }
+                                            },
+
                                         });
+
+                                        function submitAnswers(data){
+                                            $("#submit-answers").click(function() {
+                                                var questions = data.Questions;
+                                                data.Questions.forEach(function(answerText, index) {
+                                                    var resultData = {
+                                                        id: 0,
+                                                        serviceOrderCode: 0,
+                                                        dateCreated: 0,
+                                                        status: ''
+                                                    };
+                                                    var questionId = questions[index].id; // Get question ID (if needed)
+                                                    var inputId = `question_${index}`;
+                                                    var answerText = $(`#${inputId}`).val();
+                                                    var serviceOrderCode = $('#serviceOrderInput').val();
+                                                    var serviceOrderCodeUrl = 
+                                                        `${API_CONFIG.BASE_URL}${API_CONFIG.SERVICE_ORDER_GET_BY_CODE}?serviceOrderCode=${serviceOrderCode}`;
+                                                    $.ajax({
+                                                        url: serviceOrderCodeUrl,
+                                                        method: 'GET',
+                                                        success: function (response) {
+                                                            resultData = {
+                                                                id: response.id,
+                                                                serviceOrderCode: response.serviceOrderCode,
+                                                                dateCreated: response.dateCreated,
+                                                                status: response.status
+                                                            };
+
+                                                            console.log(response);
+
+                                                            var formData = {
+                                                                QuestionId: questionId,
+                                                                AnswerText: answerText,
+                                                                ServiceOrderId: resultData.id 
+                                                            };
+                                                            $.ajax({
+                                                                url: `${API_CONFIG.BASE_URL}${API_CONFIG.ANSWER_POST_ENDPOINT}`,
+                                                                method: "POST", 
+                                                                data: JSON.stringify(formData),
+                                                                headers: {
+                                                                    'Content-Type':'application/json'
+                                                                },
+                                                                success: function(response) {
+                                                                    console.log("Answers submitted successfully:", response);
+                                                                    $(".question-input").val("");
+                                                                },
+                                                                error: function(error) {
+                                                                    console.error("Error:", error);
+                                                                }
+                                                            });
+                                                        },
+                                                        error: function () {
+                                                            
+                                                        },
+                                                    }); 
+                                                });
+                                            });
+                                        }
                                     }
+
+                                    function getServiceOrderId(){
+                                        var serviceOrderId = 0;
+
+
+                                    }
+
 
                                     function generateServiceOrder(selectedValue){
                                         if (selectedValue) {
