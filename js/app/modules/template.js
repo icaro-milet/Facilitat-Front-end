@@ -90,7 +90,7 @@ const TemplateService = {
                                     function displayForm(selectedValue) {
                                         generateServiceOrder(selectedValue);
                                         
-                                        var answersUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_GET_TEMPLATE_BY_NAME_ENDPOINT}` + selectedValue;
+                                        var answersUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_GET_TEMPLATE_BY_ID_ENDPOINT}` + selectedValue;
                                         $.ajax({
                                             url: answersUrl, // Adjust the URL to your API endpoint
                                             method: 'GET',
@@ -222,37 +222,65 @@ const TemplateService = {
                                     }
                                 },
                                 change: function() {
-                                    const selectedValue = this.value(); 
-                                    displayGrid(selectedValue); 
+                                    const templateId = this.value(); 
+                                    displayGrid(templateId); 
 
-                                    function displayGrid(selectedValue) {
+                                    function displayGrid(templateId) {
                                         $("#grid").kendoGrid({
                                             dataSource: {
-                                                data: [], 
+                                                data: [] 
                                             },
                                             columns: [
                                                 { 
                                                     field: "Question", 
                                                     title: "Question",
-                                                    template: function loadGridData(selectedValue){
-                                                        var questions = [];
-                                                        var templatesUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.TEMPLATE_GET_TEMPLATE_BY_NAME_ENDPOINT}` + selectedValue;
-                                                            $.ajax({
-                                                                url: templatesUrl,
-                                                                method: "GET", 
-                                                                success: function (response) {
-                                                                    console.log(response);
-                                                                    return questions
-                                                                },
-                                                                error: function () {}
-                                                            });
-                                                    }
+                                                    template: loadQuestions(templateId)
                                                  },
-                                                { field: "AnswerText", title: "Answer" },
+                                                { 
+                                                    field: "Answer", 
+                                                    title: "Answer",
+                                                    template: loadQuestions(templateId)
+                                                }
                                             ],
                                             height: 400, 
                                             sortable: true, 
                                             pageable: true 
+                                        });
+                                    }
+
+                                    function loadQuestions(templateId){
+                                        var questions = [];
+                                        
+                                        $.ajax({
+                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.QUESTION_GET_QUESTIONS_BY_ID}?templateId=${templateId}`,
+                                            method: "GET",
+                                            success: function (templateData) {
+                                                for (var i = 0; i < templateData.length; i++) {
+                                                    questions.push(templateData[i].questionText)
+                                                }
+                                            },
+                                            error: function () {
+                                                console.error("Failed to fetch template data.");
+                                            },
+                                        });
+
+                                        $.ajax({
+                                            url: `${API_CONFIG.BASE_URL}${API_CONFIG.ANSWER_ENDPOINT}?templateId=${templateId}`,
+                                            method: "GET",
+                                            success: function (data) {
+                                                var gridDataSource = $("#grid").data("kendoGrid").dataSource;
+
+                                                for (var i = 0; i < data.length; i++) {
+                                                    var newDataRow = {
+                                                        Answer: data[i].answerText,
+                                                        Question: questions[i]
+                                                    }
+                                                    gridDataSource.add(newDataRow);
+                                                }
+                                            },
+                                            error: function () {
+                                                console.error("Failed to fetch template data.");
+                                            },
                                         });
                                     }
 
