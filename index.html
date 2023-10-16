@@ -1,82 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Templates</title>
-
-    <link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.default.min.css" rel="stylesheet" />
-    <link href="https://kendo.cdn.telerik.com/themes/6.7.0/default/default-main.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="icon" href="/js/favicon.ico" type="image/x-icon">
-    
-
-    
-    <style>html { font-size: 14px; font-family: Arial, Helvetica, sans-serif; }</style>
-    
-  </head>
-  <body>
-
-    <p>Olá, bem-vindo ao sistema de <b>Serviços</b></p>
-    <div class="demo-section">
-      <div id="tabstrip-images">
-        
-        <div id="template-screen" class="form-container">
-          <label for="template-name">Nome do template:</label>
-          <input class="k-textbox" type="text" id="template-name" />
-          
-          <label for="template-description">Descrição:</label>
-          <input class="k-textbox" type="text" id="template-description" />
-
-          <label for="add-question">Perguntas::</label>
-          <div id="questions-container">
-              <!-- Question input fields will be added here dynamically -->
-          </div>
-      
-          <button id="add-question" class="k-button">Add Question</button>
-          <button id="save-template" class="k-button">Save Template</button>
-      </div>
-
-        <div id="answers-screen" class="form-container">
-          <div class="k-d-flex k-justify-content-left">
-            <div class="k-w-300"> 
-              <input id="templateDropdown" style="width: 100%;" />
-              <div id="serviceOrder">
-                <label for="serviceOrderInput">Ordem de serviço:</label>
-                <input type="text" id="serviceOrderInput" placeholder="Ordem de serviço" class="question-input" readonly/>
-              <div id="questionsContainer">
-              </div>
-                
-              </div>
+   <head>
+      <meta charset="utf-8" />
+      <title>Templates</title>
+      <link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.common.min.css" rel="stylesheet" />
+      <link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.default.min.css" rel="stylesheet" />
+      <link href="https://kendo.cdn.telerik.com/themes/6.7.0/default/default-main.css" rel="stylesheet" />
+      <link rel="stylesheet" type="text/css" href="style.css">
+      <link rel="icon" href="/js/favicon.ico" type="image/x-icon">
+      <style>html { font-size: 14px; font-family: Arial, Helvetica, sans-serif; }</style>
+   </head>
+   <body>
+      <p>Olá, bem-vindo ao sistema da <b>Facilitat</b></p>
+      <div class="demo-section">
+         <div id="tabstrip-images">
+            <div id="template-screen" class="form-container">
+               <label for="template-name">Nome do template:</label>
+               <input class="k-textbox" type="text" id="template-name" />
+               <label for="template-description">Descrição:</label>
+               <input class="k-textbox" type="text" id="template-description" />
+               <label for="add-question">Perguntas:</label>
+               <div id="questions-container">
+                  <!-- Question input fields will be added here dynamically -->
+               </div>
+               <button id="add-question" class="k-button">Add Question</button>
+               <button id="save-template" class="k-button">Save Template</button>
             </div>
-          </div>
-          <form id="answerform" style="display: none;"></form>
-        </div>
-
-        <div id="answers-grid-screen" class="form-container">
-          <div id="answers-grid-screen">
-            <div class="k-d-flex k-justify-content-left">
-              <div class="k-w-300">
-                <input id="templateGridDropdown" style="width: 100%;" class="k-dropdown"/>
-                <div id="grid" class="grid">
-
-                </div>
-              </div>
+            <div id="answers-screen" class="form-container">
+               <div class="k-d-flex k-justify-content-left">
+                  <div class="k-w-300">
+                     <input id="templateDropdown" style="width: 100%;" />
+                     <div id="serviceOrder">
+                        <label for="serviceOrderInput">Ordem de serviço:</label>
+                        <input type="text" id="serviceOrderInput" placeholder="Ordem de serviço" class="question-input" readonly/>
+                        <div id="questionsContainer">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <form id="answerform" style="display: none;"></form>
             </div>
-          </div>
-        </div>
-        
+            <div id="answers-grid-screen" class="form-container">
+               <div id="answers-grid-screen">
+                  <div class="k-d-flex k-justify-content-left">
+                     <div class="k-w-300">
+                        <input id="templateGridDropdown" style="width: 100%;" class="k-dropdown"/>
+                        <div id="grid" class="grid">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="form-container">
+              <div id="validation-user-success"></div>
+              <form id="userForm"></form>
+            </div>
+
+            <div class="form-container">
+               <div id="scheduler"></div>
+             </div>
+         </div>
       </div>
-    </div>
-
-    <script type="module" src="js/app/main.js"></script>
-    <script type="module" src="js/app/modules/template.js"></script>
-    <script type="module" src="js/config/api.js"></script>
-
-    <script id="subgrid-template" type="text/x-kendo-template"></script>
-    
-    <script src="/js/vendor/kendo/js/jquery.min.js"></script>
-    <script src="/js/vendor/kendo/js/kendo.all.min.js"></script>
-    <script src="/js/kendo-ui-license.js"></script>
-  </body>
+      <script type="module" src="js/app/main.js"></script>
+      <script type="module" src="js/app/modules/template.js"></script>
+      <script type="module" src="js/config/api.js"></script>
+      <script id="subgrid-template" type="text/x-kendo-template"></script>
+      <script src="/js/vendor/kendo/js/jquery.min.js"></script>
+      <script src="/js/vendor/kendo/js/kendo.all.min.js"></script>
+      <script src="/js/kendo-ui-license.js"></script>
+   </body>
 </html>

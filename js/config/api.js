@@ -8,7 +8,9 @@ export const API_CONFIG = {
     ANSWER_POST_ENDPOINT: '/Answer/CreateAnswer',
     SERVICE_ORDER_POST: '/ServiceOrder/CreateServiceOrder',
     SERVICE_ORDER_GET_BY_CODE: '/ServiceOrder/GetServiceOrderByCode/',
-    QUESTION_GET_QUESTIONS_BY_ID: '/Question/GetQuestionsToFormById/'
+    QUESTION_GET_QUESTIONS_BY_ID: '/Question/GetQuestionsToFormById/',
+    USER_POST_CREATE: '/User/CreateUser',
+    USER_GET_ALL: '/User/GetAllUsers'
 };
 
 export default API_CONFIG;
