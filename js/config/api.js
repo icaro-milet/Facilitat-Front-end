@@ -10,7 +10,8 @@ export const API_CONFIG = {
     SERVICE_ORDER_GET_BY_CODE: '/ServiceOrder/GetServiceOrderByCode/',
     QUESTION_GET_QUESTIONS_BY_ID: '/Question/GetQuestionsToFormById/',
     USER_POST_CREATE: '/User/CreateUser',
-    USER_GET_ALL: '/User/GetAllUsers'
+    USER_GET_ALL: '/User/GetAllUsers',
+    APPOINTMENT_CREATE: '/Appointment/CreateAppointment'
 };
 
 export default API_CONFIG;
